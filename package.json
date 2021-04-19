@@ -71,7 +71,7 @@
   "main:src": "src/index.ts",
   "standard-version": {
     "scripts": {
-      "prerelease": "npm run lint && CI=true npm test",
+      "prerelease": "npm run lint",
       "postchangelog": "prettier --write \"CHANGELOG.md\""
     }
   }
