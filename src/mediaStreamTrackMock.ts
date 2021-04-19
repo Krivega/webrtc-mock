@@ -9,11 +9,11 @@ class MediaStreamTrackMock implements MediaStreamTrack {
 
   readyState: MediaStreamTrackState = 'live';
 
-  isolated: boolean = false;
+  isolated = false;
 
-  label: string = '';
+  label = '';
 
-  muted: boolean = false;
+  muted = false;
 
   onended: ((this: MediaStreamTrack, ev: Event) => any) | null = null;
 
@@ -50,17 +50,17 @@ class MediaStreamTrackMock implements MediaStreamTrack {
     throw new Error('Method not implemented.');
   }
 
-  applyConstraints(constraints: MediaTrackConstraints) {
+  applyConstraints(constraints: MediaTrackConstraints): Promise<void> {
     this.constraints = { ...constraints };
 
     return Promise.resolve();
   }
 
-  getConstraints = () => {
+  getConstraints = (): MediaTrackConstraints => {
     return this.constraints;
   };
 
-  stop = () => {
+  stop = (): void => {
     this.readyState = 'ended';
   };
 

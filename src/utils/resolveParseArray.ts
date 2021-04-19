@@ -1,3 +1,4 @@
+// @ts-nocheck
 import flow from 'lodash/flow';
 import curryRight from 'lodash/curryRight';
 import map from 'lodash/map';
@@ -13,7 +14,7 @@ const resolveParseArray = (prop: string) => {
     },
     // @ts-ignore
     curryRight(map)(parseObject)
-  ) as (array: Object[]) => Object[];
+  ) as (array: Record<string, unknown>[]) => Record<string, unknown>[];
 
   return parseArray;
 };

@@ -10,7 +10,7 @@ const getId = () => {
 class MediaStreamMock implements MediaStream {
   id: string;
 
-  active: boolean = true;
+  active = true;
 
   onaddtrack: any;
 

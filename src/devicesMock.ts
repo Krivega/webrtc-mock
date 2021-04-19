@@ -3,9 +3,9 @@ import type { IGlobal } from './global';
 
 declare let global: IGlobal;
 
-export const VIDEO_KIND = 'videoinput' as 'videoinput';
-export const AUDIO_INPUT_KIND = 'audioinput' as 'audioinput';
-export const AUDIO_OUTPUT_KIND = 'audiooutput' as 'audiooutput';
+export const VIDEO_KIND = 'videoinput' as const;
+export const AUDIO_INPUT_KIND = 'audioinput' as const;
+export const AUDIO_OUTPUT_KIND = 'audiooutput' as const;
 
 const DEVICE_ID_POSTFIX = 'DeviceId';
 
