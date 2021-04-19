@@ -6,7 +6,7 @@ import sortBy from 'lodash/sortBy';
 import property from 'lodash/property';
 import parseObject from './parseObject';
 
-const resolveParseArray = (prop: string) => {
+const resolveParseArray = <T = any>(prop: string) => {
   const parseArray = flow(
     parseObject,
     (arr) => {
@@ -14,7 +14,7 @@ const resolveParseArray = (prop: string) => {
     },
     // @ts-ignore
     curryRight(map)(parseObject)
-  ) as (array: Record<string, unknown>[]) => Record<string, unknown>[];
+  ) as (array: T[]) => T[];
 
   return parseArray;
 };

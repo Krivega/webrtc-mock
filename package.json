@@ -35,7 +35,7 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint src/. --ext .ts",
     "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm run lint",
+    "prepublishOnly": "npm run lint",
     "release": "standard-version",
     "test": "jest"
   },
