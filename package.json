@@ -31,7 +31,7 @@
     "prebuild": "rimraf dist",
     "build": "yarn build:ts && yarn build:js",
     "build:js": "NODE_ENV=production rollup --config",
-    "build:ts": "tsc --build tsconfig.build.json",
+    "build:ts": "tsc --build tsconfig.build.json && cp ./src/global.d.ts dist",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint src/. --ext .ts",
     "prepare": "npm run build",
