@@ -4,6 +4,7 @@ import {
   createAudioContextAudioMediaStreamTrackMock,
   createCanvasVideoMediaStreamTrackMock,
 } from './createMediaStreamTrackMock';
+import * as devicesMock from './devicesMock';
 
 export { default as MediaStreamTrackMock } from './MediaStreamTrackMock';
 export { default as MediaStreamMock } from './MediaStreamMock';
@@ -15,10 +16,15 @@ export { default as parseObject } from './utils/parseObject';
 export { default as parseMediaStream } from './utils/parseMediaStream';
 export { default as parseMediaStreamWithoutId } from './utils/parseMediaStreamWithoutId';
 export { default as resolveParseArray } from './utils/resolveParseArray';
+export { default as getAvailableDevicesWithResolutions } from './getAvailableDevicesWithResolutions';
+export { default as mediaDevicesMock } from './mediaDevicesMock';
+export { default as resolutionsList } from './resolutionsList';
+export { default as doMock } from './doMock';
 
 export {
   createAudioMediaStreamTrackMock,
   createVideoMediaStreamTrackMock,
   createAudioContextAudioMediaStreamTrackMock,
   createCanvasVideoMediaStreamTrackMock,
+  devicesMock,
 };
