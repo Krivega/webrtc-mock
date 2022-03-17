@@ -6,7 +6,7 @@ import {
 } from './createMediaStreamTrackMock';
 import * as devicesMock from './devicesMock';
 
-export { default as MediaStreamTrackMock } from './MediaStreamTrackMock';
+export { default as MediaStreamTrackMock } from './mediaStreamTrackMock';
 export { default as MediaStreamMock } from './MediaStreamMock';
 export { default as getAudioContextMediaStreamMock } from './getAudioContextMediaStreamMock';
 export { default as getCanvasMediaStreamMock } from './getCanvasMediaStreamMock';

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import resolutionsList from './resolutionsList';
 import type { IGlobal } from './global';
 
@@ -90,6 +91,8 @@ export const getDevicesNothing = () => {
 export const getDevicesVideo = () => {
   if (global.COUNT_DEVICES_AVAILABLE[VIDEO_KIND] === 2) {
     return [getDeviceVideo(), getDeviceVideo(2)];
+  } else if (global.COUNT_DEVICES_AVAILABLE[VIDEO_KIND] === 0) {
+    return [];
   }
 
   return [getDeviceVideo()];
