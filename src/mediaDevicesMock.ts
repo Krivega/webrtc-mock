@@ -14,11 +14,9 @@ type TEventNames = typeof eventsNames;
 type TEventName = TEventNames[number];
 type THandler = (event: Event) => void;
 
-const DEVICE_CHANGE = 'devicechange'
+const DEVICE_CHANGE = 'devicechange';
 
-const eventsNames = [
-  DEVICE_CHANGE,
-] as const;
+const eventsNames = [DEVICE_CHANGE] as const;
 
 class MediaDevicesMock {
   private _events: Events<TEventNames>;
@@ -150,15 +148,14 @@ class MediaDevicesMock {
   setCountVideoDevicesAvailable = (count: number) => {
     setCountVideoDevicesAvailable(count);
 
-    this._events.trigger(DEVICE_CHANGE, undefined)
-  }
+    this._events.trigger(DEVICE_CHANGE, undefined);
+  };
 
   setCountAudioInDevicesAvailable = (count: number) => {
     setCountAudioInDevicesAvailable(count);
 
-    this._events.trigger(DEVICE_CHANGE, undefined)
-  }
-
-};
+    this._events.trigger(DEVICE_CHANGE, undefined);
+  };
+}
 
 export default MediaDevicesMock;

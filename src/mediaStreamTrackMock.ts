@@ -7,6 +7,8 @@ class MediaStreamTrackMock implements MediaStreamTrack {
 
   enabled: boolean;
 
+  contentHint = '';
+
   readyState: MediaStreamTrackState = 'live';
 
   isolated = false;

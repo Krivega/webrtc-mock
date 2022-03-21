@@ -20,6 +20,6 @@ export interface IGlobal {
   };
   MediaStream: typeof MediaStreamMock;
   navigator: {
-    mediaDevices: typeof MediaDevicesMock;
+    mediaDevices: MediaDevicesMock;
   };
 }
