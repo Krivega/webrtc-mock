@@ -70,8 +70,8 @@ export const getDeviceVideo = (index?: number) => {
   return parseDevice(new DeviceMock(VIDEO_KIND, index));
 };
 
-export const getDeviceAudioIn = () => {
-  return parseDevice(new DeviceMock(AUDIO_INPUT_KIND));
+export const getDeviceAudioIn = (index?: number) => {
+  return parseDevice(new DeviceMock(AUDIO_INPUT_KIND, index));
 };
 
 export const getDeviceAudioOut = () => {
@@ -90,6 +90,8 @@ export const getDevicesNothing = () => {
 export const getDevicesVideo = () => {
   if (global.COUNT_DEVICES_AVAILABLE[VIDEO_KIND] === 2) {
     return [getDeviceVideo(), getDeviceVideo(2)];
+  } else if (global.COUNT_DEVICES_AVAILABLE[VIDEO_KIND] === 3) {
+    return [getDeviceVideo(), getDeviceVideo(2), getDeviceVideo(3)];
   }
 
   return [getDeviceVideo()];
@@ -101,6 +103,11 @@ export const getDevicesVideo = () => {
  * @returns {Array} devices
  */
 export const getDevicesAudioIn = () => {
+  if (global.COUNT_DEVICES_AVAILABLE[AUDIO_INPUT_KIND] === 2) {
+    return [getDeviceAudioIn(), getDeviceAudioIn(2)];
+  } else if (global.COUNT_DEVICES_AVAILABLE[AUDIO_INPUT_KIND] === 3) {
+    return [getDeviceAudioIn(), getDeviceAudioIn(2), getDeviceAudioIn(3)];
+  }
   return [getDeviceAudioIn()];
 };
 
@@ -264,6 +271,10 @@ export const setUserNotAccessAll = (notAccess = true) => {
 
 export const setCountVideoDevicesAvailable = (count = 1) => {
   global.COUNT_DEVICES_AVAILABLE[VIDEO_KIND] = count;
+};
+
+export const setCountAudioInDevicesAvailable = (count = 1) => {
+  global.COUNT_DEVICES_AVAILABLE[AUDIO_INPUT_KIND] = count;
 };
 
 const resolutionsWithout1080p = resolutionsList.filter(({ id }) => {

@@ -1,4 +1,4 @@
-import type mediaDevicesMock from './mediaDevicesMock';
+import type MediaDevicesMock from './MediaDevicesMock';
 import type MediaStreamMock from './MediaStreamMock';
 import { VIDEO_KIND, AUDIO_INPUT_KIND, AUDIO_OUTPUT_KIND } from './devicesMock';
 
@@ -20,6 +20,6 @@ export interface IGlobal {
   };
   MediaStream: typeof MediaStreamMock;
   navigator: {
-    mediaDevices: typeof mediaDevicesMock;
+    mediaDevices: typeof MediaDevicesMock;
   };
 }
