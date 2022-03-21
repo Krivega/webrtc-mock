@@ -147,41 +147,17 @@ class MediaDevicesMock {
     this._events.off(eventName, handler);
   };
 
-  triggerVideoDeviceAdded = () => {
-    this._addVideoDevice();
+  setCountVideoDevicesAvailable = (count: number) => {
+    setCountVideoDevicesAvailable(count);
+
     this._events.trigger(DEVICE_CHANGE, undefined)
   }
 
-  triggerVideoDeviceRemoved = () => {
-    this._removeVideoDevice();
+  setCountAudioInDevicesAvailable = (count: number) => {
+    setCountAudioInDevicesAvailable(count);
+
     this._events.trigger(DEVICE_CHANGE, undefined)
   }
-
-  triggerAudioInDeviceAdded = () => {
-    this._addAudioInDevice();
-    this._events.trigger(DEVICE_CHANGE, undefined)
-  }
-
-  triggerAudioInDeviceRemoved = () => {
-    this._removeAudioInDevice();
-    this._events.trigger(DEVICE_CHANGE, undefined)
-  }
-
-  private _addVideoDevice = () => {
-    setCountVideoDevicesAvailable(3)
-  };
-
-  private _removeVideoDevice = () => {
-    setCountVideoDevicesAvailable(1)
-  };
-
-  private _addAudioInDevice = () => {
-    setCountAudioInDevicesAvailable(3)
-  };
-
-  private _removeAudioInDevice = () => {
-    setCountAudioInDevicesAvailable(1)
-  };
 
 };
 
