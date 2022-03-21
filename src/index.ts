@@ -17,7 +17,7 @@ export { default as parseMediaStream } from './utils/parseMediaStream';
 export { default as parseMediaStreamWithoutId } from './utils/parseMediaStreamWithoutId';
 export { default as resolveParseArray } from './utils/resolveParseArray';
 export { default as getAvailableDevicesWithResolutions } from './getAvailableDevicesWithResolutions';
-export { default as mediaDevicesMock } from './mediaDevicesMock';
+export { default as MediaDevicesMock } from './MediaDevicesMock';
 export { default as resolutionsList } from './resolutionsList';
 export { default as doMock } from './doMock';
 

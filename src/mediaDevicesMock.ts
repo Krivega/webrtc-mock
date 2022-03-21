@@ -1,15 +1,33 @@
+import Events from 'events-constructor';
 import createMediaStreamMock from './createMediaStreamMock';
 import {
   getAvailableDevices,
   hasAvailableResolution,
   hasUserNotAccessDevice,
+  setCountVideoDevicesAvailable,
+  setCountAudioInDevicesAvailable,
   VIDEO_KIND,
   AUDIO_INPUT_KIND,
 } from './devicesMock';
 
-/* eslint-disable no-param-reassign */
-const mediaDevicesMock = {
-  getUserMedia: (constraints: MediaStreamConstraints) => {
+type TEventNames = typeof eventsNames;
+type TEventName = TEventNames[number];
+type THandler = (event: Event) => void;
+
+const DEVICE_CHANGE = 'devicechange'
+
+const eventsNames = [
+  DEVICE_CHANGE,
+] as const;
+
+class MediaDevicesMock {
+  private _events: Events<TEventNames>;
+
+  constructor() {
+    this._events = new Events(eventsNames);
+  }
+
+  getUserMedia = (constraints: MediaStreamConstraints) => {
     let videoDeviceId;
     let audioDeviceId;
 
@@ -112,14 +130,59 @@ const mediaDevicesMock = {
 
     // empty function parseConstraints for not parse constraints
     return Promise.resolve(createMediaStreamMock(constraints));
-  },
-  enumerateDevices: () => {
+  };
+  enumerateDevices = () => {
     return new Promise((resolve) => {
       return setTimeout(() => {
         return resolve(getAvailableDevices());
       }, 100);
     });
-  },
+  };
+
+  addEventListener = (eventName: TEventName, handler: THandler) => {
+    this._events.on(eventName, handler);
+  };
+
+  removeEventListener = (eventName: TEventName, handler: THandler) => {
+    this._events.off(eventName, handler);
+  };
+
+  triggerVideoDeviceAdded = () => {
+    this._addVideoDevice();
+    this._events.trigger(DEVICE_CHANGE, undefined)
+  }
+
+  triggerVideoDeviceRemoved = () => {
+    this._removeVideoDevice();
+    this._events.trigger(DEVICE_CHANGE, undefined)
+  }
+
+  triggerAudioInDeviceAdded = () => {
+    this._addAudioInDevice();
+    this._events.trigger(DEVICE_CHANGE, undefined)
+  }
+
+  triggerAudioInDeviceRemoved = () => {
+    this._removeAudioInDevice();
+    this._events.trigger(DEVICE_CHANGE, undefined)
+  }
+
+  private _addVideoDevice = () => {
+    setCountVideoDevicesAvailable(3)
+  };
+
+  private _removeVideoDevice = () => {
+    setCountVideoDevicesAvailable(1)
+  };
+
+  private _addAudioInDevice = () => {
+    setCountAudioInDevicesAvailable(3)
+  };
+
+  private _removeAudioInDevice = () => {
+    setCountAudioInDevicesAvailable(1)
+  };
+
 };
 
-export default mediaDevicesMock;
+export default MediaDevicesMock;

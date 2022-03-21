@@ -40,7 +40,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "events-constructor": "^1.1.4"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.1.1",

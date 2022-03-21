@@ -1,13 +1,13 @@
 import { VIDEO_KIND, AUDIO_INPUT_KIND, AUDIO_OUTPUT_KIND } from './devicesMock';
 import MediaStreamMock from './MediaStreamMock';
-import mediaDevicesMock from './mediaDevicesMock';
+import MediaDevicesMock from './MediaDevicesMock';
 import type { IGlobal } from './global';
 
 declare let global: IGlobal;
 
 const doMock = () => {
   global.MediaStream = MediaStreamMock;
-  global.navigator.mediaDevices = mediaDevicesMock;
+  global.navigator.mediaDevices = new MediaDevicesMock();
   global.DEVICES_AVAILABLE = {
     [VIDEO_KIND]: true,
     [AUDIO_INPUT_KIND]: true,
