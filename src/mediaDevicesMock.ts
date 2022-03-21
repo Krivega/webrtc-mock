@@ -6,6 +6,10 @@ import {
   hasUserNotAccessDevice,
   setCountVideoDevicesAvailable,
   setCountAudioInDevicesAvailable,
+  setAvailableVideo,
+  setAvailableAudioIn,
+  setAvailableAudioOut,
+  setAvailableAll,
   VIDEO_KIND,
   AUDIO_INPUT_KIND,
 } from './devicesMock';
@@ -155,6 +159,22 @@ class MediaDevicesMock {
     setCountAudioInDevicesAvailable(count);
 
     this._events.trigger(DEVICE_CHANGE, undefined);
+  };
+
+  setAvailableVideo = () => {
+    setAvailableVideo()
+  };
+
+  setAvailableAudioIn = () => {
+    setAvailableAudioIn()
+  };
+
+  setAvailableAudioOut = () => {
+    setAvailableAudioOut()
+  };
+
+  setAvailableAll = () => {
+    setAvailableAll()
   };
 }
 

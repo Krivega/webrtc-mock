@@ -88,13 +88,14 @@ export const getDevicesNothing = () => {
 };
 
 export const getDevicesVideo = () => {
-  if (global.COUNT_DEVICES_AVAILABLE[VIDEO_KIND] === 2) {
+  if (global.COUNT_DEVICES_AVAILABLE[VIDEO_KIND] === 0) {
+    return [];
+  } else if (global.COUNT_DEVICES_AVAILABLE[VIDEO_KIND] === 2) {
     return [getDeviceVideo(), getDeviceVideo(2)];
   } else if (global.COUNT_DEVICES_AVAILABLE[VIDEO_KIND] === 3) {
     return [getDeviceVideo(), getDeviceVideo(2), getDeviceVideo(3)];
-  } else if (global.COUNT_DEVICES_AVAILABLE[VIDEO_KIND] === 0) {
-    return [];
   }
+
 
   return [getDeviceVideo()];
 };
@@ -105,13 +106,14 @@ export const getDevicesVideo = () => {
  * @returns {Array} devices
  */
 export const getDevicesAudioIn = () => {
-  if (global.COUNT_DEVICES_AVAILABLE[AUDIO_INPUT_KIND] === 2) {
+  if (global.COUNT_DEVICES_AVAILABLE[AUDIO_INPUT_KIND] === 0) {
+    return [];
+  } else if (global.COUNT_DEVICES_AVAILABLE[AUDIO_INPUT_KIND] === 2) {
     return [getDeviceAudioIn(), getDeviceAudioIn(2)];
   } else if (global.COUNT_DEVICES_AVAILABLE[AUDIO_INPUT_KIND] === 3) {
     return [getDeviceAudioIn(), getDeviceAudioIn(2), getDeviceAudioIn(3)];
-  } else if (global.COUNT_DEVICES_AVAILABLE[AUDIO_INPUT_KIND] === 0) {
-    return [];
   }
+
 
   return [getDeviceAudioIn()];
 };
