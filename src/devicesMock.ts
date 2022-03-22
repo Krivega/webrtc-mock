@@ -80,8 +80,8 @@ export class DeviceMock implements MediaDeviceInfo {
   constructor(kind: MediaDeviceKind, index?: number) {
     this.kind = kind;
     this.deviceId = generateDeviceId({ index, prefix: kind });
-    this.groupId = `groupId ${kind}`;
-    this.label = `label ${kind}`;
+    this.groupId = `groupId ${kind} ${index}`;
+    this.label = `label ${kind} ${index}`;
   }
 
   // eslint-disable-next-line class-methods-use-this
