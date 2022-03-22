@@ -219,6 +219,10 @@ export const setCountAudioInDevicesAvailable = (count = 1) => {
   global.COUNT_DEVICES_AVAILABLE[AUDIO_INPUT_KIND] = count;
 };
 
+export const setCountAudioOutDevicesAvailable = (count = 1) => {
+  global.COUNT_DEVICES_AVAILABLE[AUDIO_OUTPUT_KIND] = count;
+};
+
 const resolutionsWithout1080p = resolutionsList.filter(({ id }) => {
   return id !== '1080p';
 });
