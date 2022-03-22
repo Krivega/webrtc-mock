@@ -119,8 +119,8 @@ export const getDeviceAudioIn = (index?: number) => {
   return parseDevice(new DeviceMock(AUDIO_INPUT_KIND, index));
 };
 
-export const getDeviceAudioOut = () => {
-  return parseDevice(new DeviceMock(AUDIO_OUTPUT_KIND));
+export const getDeviceAudioOut = (index?: number) => {
+  return parseDevice(new DeviceMock(AUDIO_OUTPUT_KIND, index));
 };
 
 export const getDevicesVideo = () => {
@@ -140,11 +140,6 @@ export const getDevicesVideo = () => {
   }
 };
 
-/**
- * getDevicesAudioIn
- *
- * @returns {Array} devices
- */
 export const getDevicesAudioIn = () => {
   const countDevices = global.COUNT_DEVICES_AVAILABLE[AUDIO_INPUT_KIND];
 
@@ -162,43 +157,35 @@ export const getDevicesAudioIn = () => {
   }
 };
 
-/**
- * getAvailableDevices
- *
- * @returns {Array} devices
- */
+export const getDevicesAudioOut = () => {
+  const countDevices = global.COUNT_DEVICES_AVAILABLE[AUDIO_OUTPUT_KIND];
+
+  switch (countDevices) {
+    case 0:
+      return [];
+    case 1:
+      return [getDeviceAudioOut()];
+    case 2:
+      return [getDeviceAudioOut(), getDeviceAudioOut(2)];
+    case 3:
+      return [getDeviceAudioOut(), getDeviceAudioOut(2), getDeviceAudioOut(3)];
+    default:
+      return [getDeviceAudioOut()];
+  }
+};
+
 export const getAvailableDevices = () => {
   return [...getDevicesVideo(), ...getDevicesAudioIn(), getDeviceAudioOut()];
 };
 
-/**
- * setUserNotAccessAudioIn
- *
- * @param {boolean} notAccess - notAccess
- *
- * @returns {undefined}
- */
 export const setUserNotAccessVideo = (notAccess: boolean) => {
   global.DEVICES_USER_NOT_ACCESS[VIDEO_KIND] = notAccess;
 };
 
-/**
- * setUserNotAccessAudioIn
- *
- * @param {boolean} notAccess - notAccess
- *
- * @returns {undefined}
- */
 export const setUserNotAccessAudioIn = (notAccess: boolean) => {
   global.DEVICES_USER_NOT_ACCESS[AUDIO_INPUT_KIND] = notAccess;
 };
-/**
- * setUserNotAccessAll
- *
- * @param {boolean} notAccess - notAccess
- *
- * @returns {undefined}
- */
+
 export const setUserNotAccessAll = (notAccess: boolean) => {
   setUserNotAccessAudioIn(notAccess);
   setUserNotAccessVideo(notAccess);
@@ -261,13 +248,6 @@ export const hasAvailableResolution = ({
   );
 };
 
-/**
- * get Available Resolution for Video Device
- *
- * @param {string} deviceId - deviceId
- *
- * @returns {Array} resolutions
- */
 export const getAvailableResolution = (deviceId: string) => {
   return videoDevicesAvailableResolutions[deviceId];
 };
