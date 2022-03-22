@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.5](https://github.com/Krivega/webrtc-mock/compare/v0.0.4...v0.0.5) (2022-03-22)
+
+### Bug Fixes
+
+- set different labels device ([#6](https://github.com/Krivega/webrtc-mock/issues/6)) ([80c85f4](https://github.com/Krivega/webrtc-mock/commit/80c85f4d0c2c321b86c89d6811d7476e7a9a4a0d))
+
 ### [0.0.4](https://github.com/Krivega/webrtc-mock/compare/v0.0.3...v0.0.4) (2022-03-22)
 
 ### Features
