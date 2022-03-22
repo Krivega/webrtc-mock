@@ -218,7 +218,7 @@ class MediaDevicesMock {
     setCountAudioOutDevicesAvailable(count);
 
     this._events.trigger(DEVICE_CHANGE, undefined);
-  }
+  };
 
   setBusyVideoDevice = (deviceId: string) => {
     setBusyVideoDevice(deviceId);
