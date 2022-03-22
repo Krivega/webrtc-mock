@@ -13,10 +13,14 @@ export interface IGlobal {
     [AUDIO_INPUT_KIND]: number;
     [AUDIO_OUTPUT_KIND]: number;
   };
-  DEVICES_AVAILABLE: {
-    [VIDEO_KIND]: boolean;
-    [AUDIO_INPUT_KIND]: boolean;
-    [AUDIO_OUTPUT_KIND]: boolean;
+  DEVICES_BUSY: {
+    [VIDEO_KIND]: string[];
+  };
+  DEVICES_NOT_FOUND: {
+    [VIDEO_KIND]: string[];
+  };
+  DEVICES_PERMISSION_DENIED_BY_SYSTEM: {
+    [VIDEO_KIND]: string[];
   };
   MediaStream: typeof MediaStreamMock;
   navigator: {

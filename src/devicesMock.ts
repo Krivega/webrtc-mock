@@ -21,7 +21,54 @@ export const generateDeviceId = ({
   return `${prefix}${postfix}${index === undefined ? '' : index}`;
 };
 
-class DeviceMock implements MediaDeviceInfo {
+export const setBusyVideoDevice = (deviceId: string) => {
+  if (!global.DEVICES_BUSY[VIDEO_KIND].includes(deviceId)) {
+    global.DEVICES_BUSY[VIDEO_KIND].push(deviceId);
+  }
+};
+export const unsetBusyVideoDevice = (deviceId: string) => {
+  global.DEVICES_BUSY[VIDEO_KIND] = global.DEVICES_BUSY[VIDEO_KIND].filter((id) => {
+    return id !== deviceId;
+  });
+};
+
+export const hasBusyVideoDevice = (deviceId: string): boolean => {
+  return global.DEVICES_BUSY[VIDEO_KIND].includes(deviceId);
+};
+
+export const setNotFoundVideoDevice = (deviceId: string) => {
+  if (!global.DEVICES_NOT_FOUND[VIDEO_KIND].includes(deviceId)) {
+    global.DEVICES_NOT_FOUND[VIDEO_KIND].push(deviceId);
+  }
+};
+
+export const unsetNotFoundVideoDevice = (deviceId: string) => {
+  global.DEVICES_NOT_FOUND[VIDEO_KIND] = global.DEVICES_NOT_FOUND[VIDEO_KIND].filter((id) => {
+    return id !== deviceId;
+  });
+};
+
+export const hasNotFoundVideoDevice = (deviceId: string): boolean => {
+  return global.DEVICES_NOT_FOUND[VIDEO_KIND].includes(deviceId);
+};
+
+export const setPermissionDeniedBySystem = (deviceId: string) => {
+  if (!global.DEVICES_PERMISSION_DENIED_BY_SYSTEM[VIDEO_KIND].includes(deviceId)) {
+    global.DEVICES_PERMISSION_DENIED_BY_SYSTEM[VIDEO_KIND].push(deviceId);
+  }
+};
+
+export const unsetPermissionDeniedBySystem = (deviceId: string) => {
+  global.DEVICES_PERMISSION_DENIED_BY_SYSTEM[VIDEO_KIND] =
+    global.DEVICES_PERMISSION_DENIED_BY_SYSTEM[VIDEO_KIND].filter((id) => {
+      return id !== deviceId;
+    });
+};
+
+export const hasPermissionDeniedBySystem = (deviceId: string): boolean => {
+  return global.DEVICES_PERMISSION_DENIED_BY_SYSTEM[VIDEO_KIND].includes(deviceId);
+};
+export class DeviceMock implements MediaDeviceInfo {
   deviceId: string;
 
   groupId: string;
@@ -64,8 +111,6 @@ export const parseDevice = (device: DeviceMock) => {
   return parsedDevice;
 };
 
-type TParsedDeviceMock = ReturnType<typeof parseDevice>;
-
 export const getDeviceVideo = (index?: number) => {
   return parseDevice(new DeviceMock(VIDEO_KIND, index));
 };
@@ -78,25 +123,21 @@ export const getDeviceAudioOut = () => {
   return parseDevice(new DeviceMock(AUDIO_OUTPUT_KIND));
 };
 
-/**
- * getDevicesNothing
- *
- * @returns {Array} devices
- */
-export const getDevicesNothing = () => {
-  return [];
-};
-
 export const getDevicesVideo = () => {
-  if (global.COUNT_DEVICES_AVAILABLE[VIDEO_KIND] === 2) {
-    return [getDeviceVideo(), getDeviceVideo(2)];
-  } else if (global.COUNT_DEVICES_AVAILABLE[VIDEO_KIND] === 3) {
-    return [getDeviceVideo(), getDeviceVideo(2), getDeviceVideo(3)];
-  } else if (global.COUNT_DEVICES_AVAILABLE[VIDEO_KIND] === 0) {
-    return [];
-  }
+  const countDevices = global.COUNT_DEVICES_AVAILABLE[VIDEO_KIND];
 
-  return [getDeviceVideo()];
+  switch (countDevices) {
+    case 0:
+      return [];
+    case 1:
+      return [getDeviceVideo()];
+    case 2:
+      return [getDeviceVideo(), getDeviceVideo(2)];
+    case 3:
+      return [getDeviceVideo(), getDeviceVideo(2), getDeviceVideo(3)];
+    default:
+      return [getDeviceVideo()];
+  }
 };
 
 /**
@@ -105,60 +146,20 @@ export const getDevicesVideo = () => {
  * @returns {Array} devices
  */
 export const getDevicesAudioIn = () => {
-  if (global.COUNT_DEVICES_AVAILABLE[AUDIO_INPUT_KIND] === 2) {
-    return [getDeviceAudioIn(), getDeviceAudioIn(2)];
-  } else if (global.COUNT_DEVICES_AVAILABLE[AUDIO_INPUT_KIND] === 3) {
-    return [getDeviceAudioIn(), getDeviceAudioIn(2), getDeviceAudioIn(3)];
-  } else if (global.COUNT_DEVICES_AVAILABLE[AUDIO_INPUT_KIND] === 0) {
-    return [];
+  const countDevices = global.COUNT_DEVICES_AVAILABLE[AUDIO_INPUT_KIND];
+
+  switch (countDevices) {
+    case 0:
+      return [];
+    case 1:
+      return [getDeviceAudioIn()];
+    case 2:
+      return [getDeviceAudioIn(), getDeviceAudioIn(2)];
+    case 3:
+      return [getDeviceAudioIn(), getDeviceAudioIn(2), getDeviceAudioIn(3)];
+    default:
+      return [getDeviceAudioIn()];
   }
-
-  return [getDeviceAudioIn()];
-};
-
-/**
- * getDevicesAudioOut
- *
- * @returns {Array} devices
- */
-export const getDevicesAudioOut = () => {
-  return [getDeviceAudioOut()];
-};
-
-/**
- * getDevicesAudioInOut
- *
- * @returns {Array} devices
- */
-export const getDevicesAudioInOut = () => {
-  return [getDeviceAudioIn(), getDeviceAudioOut()];
-};
-
-/**
- * getDevicesVideoAudioIn
- *
- * @returns {Array} devices
- */
-export const getDevicesVideoAudioIn = () => {
-  return [...getDevicesVideo(), getDeviceAudioIn()];
-};
-
-/**
- * getDevicesVideoAudioOut
- *
- * @returns {Array} devices
- */
-export const getDevicesVideoAudioOut = () => {
-  return [...getDevicesVideo(), getDeviceAudioOut()];
-};
-
-/**
- * getDevicesVideoAudioInOut
- *
- * @returns {Array} devices
- */
-export const getDevicesVideoAudioInOut = () => {
-  return [...getDevicesVideo(), getDeviceAudioIn(), getDeviceAudioOut()];
 };
 
 /**
@@ -167,78 +168,7 @@ export const getDevicesVideoAudioInOut = () => {
  * @returns {Array} devices
  */
 export const getAvailableDevices = () => {
-  let devices: TParsedDeviceMock[] = getDevicesNothing();
-
-  if (
-    global.DEVICES_AVAILABLE[VIDEO_KIND] &&
-    global.DEVICES_AVAILABLE[AUDIO_INPUT_KIND] &&
-    global.DEVICES_AVAILABLE[AUDIO_OUTPUT_KIND]
-  ) {
-    devices = getDevicesVideoAudioInOut();
-  } else if (global.DEVICES_AVAILABLE[VIDEO_KIND] && global.DEVICES_AVAILABLE[AUDIO_OUTPUT_KIND]) {
-    devices = getDevicesVideoAudioOut();
-  } else if (global.DEVICES_AVAILABLE[VIDEO_KIND] && global.DEVICES_AVAILABLE[AUDIO_INPUT_KIND]) {
-    devices = getDevicesVideoAudioIn();
-  } else if (
-    global.DEVICES_AVAILABLE[AUDIO_INPUT_KIND] &&
-    global.DEVICES_AVAILABLE[AUDIO_OUTPUT_KIND]
-  ) {
-    devices = getDevicesAudioInOut();
-  } else if (global.DEVICES_AVAILABLE[AUDIO_OUTPUT_KIND]) {
-    devices = getDevicesAudioOut();
-  } else if (global.DEVICES_AVAILABLE[AUDIO_INPUT_KIND]) {
-    devices = getDevicesAudioIn();
-  } else if (global.DEVICES_AVAILABLE[VIDEO_KIND]) {
-    devices = getDevicesVideo();
-  }
-
-  return devices;
-};
-
-/**
- * setAvailableVideo
- *
- * @param {boolean} available - available
- *
- * @returns {undefined}
- */
-export const setAvailableVideo = (available = true) => {
-  global.DEVICES_AVAILABLE[VIDEO_KIND] = available;
-};
-
-/**
- * setAvailableAudioIn
- *
- * @param {boolean} available - available
- *
- * @returns {undefined}
- */
-export const setAvailableAudioIn = (available = true) => {
-  global.DEVICES_AVAILABLE[AUDIO_INPUT_KIND] = available;
-};
-
-/**
- * setAvailableAudioOut
- *
- * @param {boolean} available - available
- *
- * @returns {undefined}
- */
-export const setAvailableAudioOut = (available = true) => {
-  global.DEVICES_AVAILABLE[AUDIO_OUTPUT_KIND] = available;
-};
-
-/**
- * setAvailableAll
- *
- * @param {boolean} available - available
- *
- * @returns {undefined}
- */
-export const setAvailableAll = (available = true) => {
-  setAvailableVideo(available);
-  setAvailableAudioIn(available);
-  setAvailableAudioOut(available);
+  return [...getDevicesVideo(), ...getDevicesAudioIn(), getDeviceAudioOut()];
 };
 
 /**
@@ -248,7 +178,7 @@ export const setAvailableAll = (available = true) => {
  *
  * @returns {undefined}
  */
-const setUserNotAccessVideo = (notAccess = true) => {
+export const setUserNotAccessVideo = (notAccess: boolean) => {
   global.DEVICES_USER_NOT_ACCESS[VIDEO_KIND] = notAccess;
 };
 
@@ -259,7 +189,7 @@ const setUserNotAccessVideo = (notAccess = true) => {
  *
  * @returns {undefined}
  */
-const setUserNotAccessAudioIn = (notAccess = true) => {
+export const setUserNotAccessAudioIn = (notAccess: boolean) => {
   global.DEVICES_USER_NOT_ACCESS[AUDIO_INPUT_KIND] = notAccess;
 };
 /**
@@ -269,9 +199,16 @@ const setUserNotAccessAudioIn = (notAccess = true) => {
  *
  * @returns {undefined}
  */
-export const setUserNotAccessAll = (notAccess = true) => {
+export const setUserNotAccessAll = (notAccess: boolean) => {
   setUserNotAccessAudioIn(notAccess);
   setUserNotAccessVideo(notAccess);
+};
+
+export const unsetAllRestrictions = () => {
+  global.DEVICES_BUSY[VIDEO_KIND] = [];
+  global.DEVICES_NOT_FOUND[VIDEO_KIND] = [];
+  global.DEVICES_PERMISSION_DENIED_BY_SYSTEM[VIDEO_KIND] = [];
+  setUserNotAccessAll(false);
 };
 
 export const setCountVideoDevicesAvailable = (count = 1) => {

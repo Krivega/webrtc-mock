@@ -4,7 +4,7 @@ import {
   createAudioContextAudioMediaStreamTrackMock,
   createCanvasVideoMediaStreamTrackMock,
 } from './createMediaStreamTrackMock';
-import * as devicesMock from './devicesMock';
+import { getAvailableDevices } from './devicesMock';
 
 export { default as MediaStreamTrackMock } from './MediaStreamTrackMock';
 export { default as MediaStreamMock } from './MediaStreamMock';
@@ -25,5 +25,5 @@ export {
   createVideoMediaStreamTrackMock,
   createAudioContextAudioMediaStreamTrackMock,
   createCanvasVideoMediaStreamTrackMock,
-  devicesMock,
+  getAvailableDevices,
 };

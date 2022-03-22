@@ -1,9 +1,28 @@
 import Events from 'events-constructor';
 import createMediaStreamMock from './createMediaStreamMock';
 import {
+  getNotFoundError,
+  getNotReadableErrorVideo,
+  getPermissionDeniedBySystemError,
+  getPermissionDeniedByError,
+} from './errors/errors';
+import {
+  setBusyVideoDevice,
+  setNotFoundVideoDevice,
+  setPermissionDeniedBySystem,
+  setUserNotAccessVideo,
+  setUserNotAccessAudioIn,
+  setUserNotAccessAll,
+  unsetAllRestrictions,
+  unsetBusyVideoDevice,
+  unsetNotFoundVideoDevice,
+  unsetPermissionDeniedBySystem,
   getAvailableDevices,
   hasAvailableResolution,
   hasUserNotAccessDevice,
+  hasBusyVideoDevice,
+  hasNotFoundVideoDevice,
+  hasPermissionDeniedBySystem,
   setCountVideoDevicesAvailable,
   setCountAudioInDevicesAvailable,
   VIDEO_KIND,
@@ -46,7 +65,7 @@ class MediaDevicesMock {
     ) {
       videoDeviceId = getAvailableDevices().find(({ kind }) => {
         return kind === VIDEO_KIND;
-      })!.deviceId;
+      })?.deviceId;
       constraints.video = {
         deviceId: {
           exact: videoDeviceId,
@@ -77,7 +96,7 @@ class MediaDevicesMock {
     ) {
       audioDeviceId = getAvailableDevices().find(({ kind }) => {
         return kind === AUDIO_INPUT_KIND;
-      })!.deviceId;
+      })?.deviceId;
       constraints.audio = {
         deviceId: {
           exact: audioDeviceId,
@@ -99,10 +118,47 @@ class MediaDevicesMock {
       return Promise.reject(new Error(`Video DeviceId is not available: ${videoDeviceId}`));
     }
 
+    if (videoDeviceId && typeof videoDeviceId === 'string' && hasBusyVideoDevice(videoDeviceId)) {
+      const error = getNotReadableErrorVideo();
+
+      return Promise.reject(error);
+    }
+
+    if (
+      videoDeviceId &&
+      typeof videoDeviceId === 'string' &&
+      hasPermissionDeniedBySystem(videoDeviceId)
+    ) {
+      const error = getPermissionDeniedBySystemError();
+
+      return Promise.reject(error);
+    }
+
+    if (
+      videoDeviceId &&
+      typeof videoDeviceId === 'string' &&
+      hasNotFoundVideoDevice(videoDeviceId)
+    ) {
+      const error = getNotFoundError();
+
+      return Promise.reject(error);
+    }
+
+    if (
+      videoDeviceId &&
+      typeof videoDeviceId === 'string' &&
+      hasUserNotAccessDevice(videoDeviceId)
+    ) {
+      const error = getPermissionDeniedByError();
+
+      return Promise.reject(error);
+    }
+
     if (
       videoDeviceId &&
       typeof videoDeviceId === 'string' &&
       typeof constraints.video === 'object' &&
+      typeof constraints.video.height === 'object' &&
       typeof constraints.video.height === 'object' &&
       constraints.video.height &&
       constraints.video.height.exact &&
@@ -155,6 +211,46 @@ class MediaDevicesMock {
     setCountAudioInDevicesAvailable(count);
 
     this._events.trigger(DEVICE_CHANGE, undefined);
+  };
+
+  setBusyVideoDevice = (deviceId: string) => {
+    setBusyVideoDevice(deviceId);
+  };
+
+  setNotFoundVideoDevice = (deviceId: string) => {
+    setNotFoundVideoDevice(deviceId);
+  };
+
+  setPermissionDeniedBySystem = (deviceId: string) => {
+    setPermissionDeniedBySystem(deviceId);
+  };
+
+  setUserNotAccessVideo = (notAccess = true) => {
+    setUserNotAccessVideo(notAccess);
+  };
+
+  setUserNotAccessAudioIn = (notAccess = true) => {
+    setUserNotAccessAudioIn(notAccess);
+  };
+
+  setUserNotAccessAll = (notAccess = true) => {
+    setUserNotAccessAll(notAccess);
+  };
+
+  unsetAllRestrictions = () => {
+    unsetAllRestrictions();
+  };
+
+  unsetBusyVideoDevice = (deviceId: string) => {
+    unsetBusyVideoDevice(deviceId);
+  };
+
+  unsetNotFoundVideoDevice = (deviceId: string) => {
+    unsetNotFoundVideoDevice(deviceId);
+  };
+
+  unsetPermissionDeniedBySystem = (deviceId: string) => {
+    unsetPermissionDeniedBySystem(deviceId);
   };
 }
 
