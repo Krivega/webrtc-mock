@@ -25,6 +25,7 @@ import {
   hasPermissionDeniedBySystem,
   setCountVideoDevicesAvailable,
   setCountAudioInDevicesAvailable,
+  setCountAudioOutDevicesAvailable,
   VIDEO_KIND,
   AUDIO_INPUT_KIND,
 } from './devicesMock';
@@ -209,6 +210,12 @@ class MediaDevicesMock {
 
   setCountAudioInDevicesAvailable = (count: number) => {
     setCountAudioInDevicesAvailable(count);
+
+    this._events.trigger(DEVICE_CHANGE, undefined);
+  };
+
+  setCountAudioOutDevicesAvailable = (count: number) => {
+    setCountAudioOutDevicesAvailable(count);
 
     this._events.trigger(DEVICE_CHANGE, undefined);
   };
