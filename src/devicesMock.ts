@@ -24,7 +24,10 @@ export const generateDeviceId = ({
 export const setBusyVideoDevice = (deviceId: string) => {
   const deviceIdLowerCase = deviceId.toLowerCase();
 
-  if (deviceIdLowerCase.includes(VIDEO_KIND)) {
+  if (
+    deviceIdLowerCase.includes(VIDEO_KIND) &&
+    !global.DEVICES_BUSY[VIDEO_KIND].includes(deviceId)
+  ) {
     global.DEVICES_BUSY[VIDEO_KIND].push(deviceId);
   }
 };
@@ -46,7 +49,10 @@ export const hasBusyVideoDevice = (deviceId: string): boolean => {
 export const setNotFoundVideoDevice = (deviceId: string) => {
   const deviceIdLowerCase = deviceId.toLowerCase();
 
-  if (deviceIdLowerCase.includes(VIDEO_KIND)) {
+  if (
+    deviceIdLowerCase.includes(VIDEO_KIND) &&
+    !global.DEVICES_NOT_FOUND[VIDEO_KIND].includes(deviceId)
+  ) {
     global.DEVICES_NOT_FOUND[VIDEO_KIND].push(deviceId);
   }
 };
@@ -69,7 +75,10 @@ export const hasNotFoundVideoDevice = (deviceId: string) => {
 export const setPermissionDeniedBySystem = (deviceId: string) => {
   const deviceIdLowerCase = deviceId.toLowerCase();
 
-  if (deviceIdLowerCase.includes(VIDEO_KIND)) {
+  if (
+    deviceIdLowerCase.includes(VIDEO_KIND) &&
+    !global.DEVICES_PERMISSION_DENIED_BY_SYSTEM[VIDEO_KIND].includes(deviceId)
+  ) {
     global.DEVICES_PERMISSION_DENIED_BY_SYSTEM[VIDEO_KIND].push(deviceId);
   }
 };
