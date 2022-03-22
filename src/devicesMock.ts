@@ -22,81 +22,51 @@ export const generateDeviceId = ({
 };
 
 export const setBusyVideoDevice = (deviceId: string) => {
-  const deviceIdLowerCase = deviceId.toLowerCase();
-
-  if (
-    deviceIdLowerCase.includes(VIDEO_KIND) &&
-    !global.DEVICES_BUSY[VIDEO_KIND].includes(deviceId)
-  ) {
+  if (!global.DEVICES_BUSY[VIDEO_KIND].includes(deviceId)) {
     global.DEVICES_BUSY[VIDEO_KIND].push(deviceId);
   }
 };
-export const unsetBusyVideoDevice = () => {
-  global.DEVICES_BUSY[VIDEO_KIND] = [];
+export const unsetBusyVideoDevice = (deviceId: string) => {
+  global.DEVICES_BUSY[VIDEO_KIND] = global.DEVICES_BUSY[VIDEO_KIND].filter((id) => {
+    return id !== deviceId;
+  });
 };
 
 export const hasBusyVideoDevice = (deviceId: string): boolean => {
-  const deviceIdLowerCase = deviceId.toLowerCase();
-  let isBusyVideoDevice = false;
-
-  if (deviceIdLowerCase.includes(VIDEO_KIND)) {
-    isBusyVideoDevice = global.DEVICES_BUSY[VIDEO_KIND].includes(deviceId);
-  }
-
-  return isBusyVideoDevice;
+  return global.DEVICES_BUSY[VIDEO_KIND].includes(deviceId);
 };
 
 export const setNotFoundVideoDevice = (deviceId: string) => {
-  const deviceIdLowerCase = deviceId.toLowerCase();
-
-  if (
-    deviceIdLowerCase.includes(VIDEO_KIND) &&
-    !global.DEVICES_NOT_FOUND[VIDEO_KIND].includes(deviceId)
-  ) {
+  if (!global.DEVICES_NOT_FOUND[VIDEO_KIND].includes(deviceId)) {
     global.DEVICES_NOT_FOUND[VIDEO_KIND].push(deviceId);
   }
 };
 
-export const unsetNotFoundVideoDevice = () => {
-  global.DEVICES_NOT_FOUND[VIDEO_KIND] = [];
+export const unsetNotFoundVideoDevice = (deviceId: string) => {
+  global.DEVICES_NOT_FOUND[VIDEO_KIND] = global.DEVICES_NOT_FOUND[VIDEO_KIND].filter((id) => {
+    return id !== deviceId;
+  });
 };
 
-export const hasNotFoundVideoDevice = (deviceId: string) => {
-  const deviceIdLowerCase = deviceId.toLowerCase();
-  let isNotFoundVideoDevice = false;
-
-  if (deviceIdLowerCase.includes(VIDEO_KIND)) {
-    isNotFoundVideoDevice = global.DEVICES_NOT_FOUND[VIDEO_KIND].includes(deviceId);
-  }
-
-  return isNotFoundVideoDevice;
+export const hasNotFoundVideoDevice = (deviceId: string): boolean => {
+  return global.DEVICES_NOT_FOUND[VIDEO_KIND].includes(deviceId);
 };
 
 export const setPermissionDeniedBySystem = (deviceId: string) => {
-  const deviceIdLowerCase = deviceId.toLowerCase();
-
-  if (
-    deviceIdLowerCase.includes(VIDEO_KIND) &&
-    !global.DEVICES_PERMISSION_DENIED_BY_SYSTEM[VIDEO_KIND].includes(deviceId)
-  ) {
+  if (!global.DEVICES_PERMISSION_DENIED_BY_SYSTEM[VIDEO_KIND].includes(deviceId)) {
     global.DEVICES_PERMISSION_DENIED_BY_SYSTEM[VIDEO_KIND].push(deviceId);
   }
 };
 
-export const unsetPermissionDeniedBySystem = () => {
-  global.DEVICES_PERMISSION_DENIED_BY_SYSTEM[VIDEO_KIND] = [];
+export const unsetPermissionDeniedBySystem = (deviceId: string) => {
+  global.DEVICES_PERMISSION_DENIED_BY_SYSTEM[VIDEO_KIND] =
+    global.DEVICES_PERMISSION_DENIED_BY_SYSTEM[VIDEO_KIND].filter((id) => {
+      return id !== deviceId;
+    });
 };
 
-export const hasPermissionDeniedBySystem = (deviceId: string) => {
-  const deviceIdLowerCase = deviceId.toLowerCase();
-  let isPermissionDeniedBySystem = false;
-
-  if (deviceIdLowerCase.includes(VIDEO_KIND)) {
-    isPermissionDeniedBySystem =
-      global.DEVICES_PERMISSION_DENIED_BY_SYSTEM[VIDEO_KIND].includes(deviceId);
-  }
-
-  return isPermissionDeniedBySystem;
+export const hasPermissionDeniedBySystem = (deviceId: string): boolean => {
+  return global.DEVICES_PERMISSION_DENIED_BY_SYSTEM[VIDEO_KIND].includes(deviceId);
 };
 export class DeviceMock implements MediaDeviceInfo {
   deviceId: string;
@@ -235,9 +205,9 @@ export const setUserNotAccessAll = (notAccess: boolean) => {
 };
 
 export const unsetAllRestrictions = () => {
-  unsetBusyVideoDevice();
-  unsetNotFoundVideoDevice();
-  unsetPermissionDeniedBySystem();
+  global.DEVICES_BUSY[VIDEO_KIND] = [];
+  global.DEVICES_NOT_FOUND[VIDEO_KIND] = [];
+  global.DEVICES_PERMISSION_DENIED_BY_SYSTEM[VIDEO_KIND] = [];
   setUserNotAccessAll(false);
 };
 

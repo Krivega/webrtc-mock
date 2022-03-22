@@ -4,31 +4,7 @@ import {
   createAudioContextAudioMediaStreamTrackMock,
   createCanvasVideoMediaStreamTrackMock,
 } from './createMediaStreamTrackMock';
-import {
-  VIDEO_KIND,
-  AUDIO_INPUT_KIND,
-  AUDIO_OUTPUT_KIND,
-  generateDeviceId,
-  hasUserNotAccessDevice,
-  parseDevice,
-  getAvailableDevices,
-  videoDevicesAvailableResolutions,
-  hasAvailableResolution,
-  getAvailableResolution,
-} from './devicesMock';
-
-const devicesMock = {
-  VIDEO_KIND,
-  AUDIO_INPUT_KIND,
-  AUDIO_OUTPUT_KIND,
-  generateDeviceId,
-  hasUserNotAccessDevice,
-  parseDevice,
-  getAvailableDevices,
-  videoDevicesAvailableResolutions,
-  hasAvailableResolution,
-  getAvailableResolution,
-};
+import { getAvailableDevices } from './devicesMock';
 
 export { default as MediaStreamTrackMock } from './MediaStreamTrackMock';
 export { default as MediaStreamMock } from './MediaStreamMock';
@@ -50,5 +26,5 @@ export {
   createVideoMediaStreamTrackMock,
   createAudioContextAudioMediaStreamTrackMock,
   createCanvasVideoMediaStreamTrackMock,
-  devicesMock,
+  getAvailableDevices,
 };

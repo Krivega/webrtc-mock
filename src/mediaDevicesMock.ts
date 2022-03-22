@@ -241,16 +241,16 @@ class MediaDevicesMock {
     unsetAllRestrictions();
   };
 
-  unsetBusyVideoDevice = () => {
-    unsetBusyVideoDevice();
+  unsetBusyVideoDevice = (deviceId: string) => {
+    unsetBusyVideoDevice(deviceId);
   };
 
-  unsetNotFoundVideoDevice = () => {
-    unsetNotFoundVideoDevice();
+  unsetNotFoundVideoDevice = (deviceId: string) => {
+    unsetNotFoundVideoDevice(deviceId);
   };
 
-  unsetPermissionDeniedBySystem = () => {
-    unsetPermissionDeniedBySystem();
+  unsetPermissionDeniedBySystem = (deviceId: string) => {
+    unsetPermissionDeniedBySystem(deviceId);
   };
 }
 
