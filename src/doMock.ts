@@ -8,11 +8,6 @@ declare let global: IGlobal;
 const doMock = () => {
   global.MediaStream = MediaStreamMock;
   global.navigator.mediaDevices = new MediaDevicesMock();
-  global.DEVICES_AVAILABLE = {
-    [VIDEO_KIND]: true,
-    [AUDIO_INPUT_KIND]: true,
-    [AUDIO_OUTPUT_KIND]: true,
-  };
   global.COUNT_DEVICES_AVAILABLE = {
     [VIDEO_KIND]: 1,
     [AUDIO_INPUT_KIND]: 1,
@@ -22,6 +17,15 @@ const doMock = () => {
     [VIDEO_KIND]: false,
     [AUDIO_INPUT_KIND]: false,
     [AUDIO_OUTPUT_KIND]: false,
+  };
+  global.DEVICES_BUSY = {
+    [VIDEO_KIND]: [],
+  };
+  global.DEVICES_NOT_FOUND = {
+    [VIDEO_KIND]: [],
+  };
+  global.DEVICES_PERMISSION_DENIED_BY_SYSTEM = {
+    [VIDEO_KIND]: [],
   };
 };
 
