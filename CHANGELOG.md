@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.4](https://github.com/Krivega/webrtc-mock/compare/v0.0.3...v0.0.4) (2022-03-22)
+
+### Features
+
+- add some missing funcs ([#5](https://github.com/Krivega/webrtc-mock/issues/5)) ([f1b5c8a](https://github.com/Krivega/webrtc-mock/commit/f1b5c8a32e7b2a31c1c768b0df8591840807eb77))
+
 ### [0.0.3](https://github.com/Krivega/webrtc-mock/compare/v0.0.2...v0.0.3) (2022-03-22)
 
 ### Features
