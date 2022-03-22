@@ -175,7 +175,7 @@ export const getDevicesAudioOut = () => {
 };
 
 export const getAvailableDevices = () => {
-  return [...getDevicesVideo(), ...getDevicesAudioIn(), getDeviceAudioOut()];
+  return [...getDevicesVideo(), ...getDevicesAudioIn(), ...getDevicesAudioOut()];
 };
 
 export const setUserNotAccessVideo = (notAccess: boolean) => {
