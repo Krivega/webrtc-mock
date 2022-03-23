@@ -110,14 +110,6 @@ class MediaDevicesMock {
       };
     }
 
-    if (
-      videoDeviceId &&
-      typeof videoDeviceId === 'string' &&
-      hasUserNotAccessDevice(videoDeviceId)
-    ) {
-      return Promise.reject(new Error(`Video DeviceId is not available: ${videoDeviceId}`));
-    }
-
     if (videoDeviceId && typeof videoDeviceId === 'string' && hasBusyVideoDevice(videoDeviceId)) {
       const error = getNotReadableErrorVideo();
 
@@ -145,9 +137,10 @@ class MediaDevicesMock {
     }
 
     if (
-      videoDeviceId &&
-      typeof videoDeviceId === 'string' &&
-      hasUserNotAccessDevice(videoDeviceId)
+      (videoDeviceId &&
+        typeof videoDeviceId === 'string' &&
+        hasUserNotAccessDevice(videoDeviceId)) ||
+      (audioDeviceId && typeof audioDeviceId === 'string' && hasUserNotAccessDevice(audioDeviceId))
     ) {
       const error = getPermissionDeniedByError();
 
@@ -172,14 +165,6 @@ class MediaDevicesMock {
           `Resolution height:${constraints.video.height.exact} is not available: ${videoDeviceId}`
         )
       );
-    }
-
-    if (
-      audioDeviceId &&
-      typeof audioDeviceId === 'string' &&
-      hasUserNotAccessDevice(audioDeviceId)
-    ) {
-      return Promise.reject(new Error(`Audio DeviceId is not available: ${audioDeviceId}`));
     }
 
     // empty function parseConstraints for not parse constraints
