@@ -38,20 +38,15 @@ const createMediaStreamMock = (
     );
   }
 
-  const mediaStreamMock = new MediaStreamMock(tracks);
+  let mediaStreamMock = new MediaStreamMock(tracks);
 
   if (fromCanvas && fromAudioContext) {
-    mediaStreamMock.tracks = [
-      // @ts-ignore
+    mediaStreamMock = new MediaStreamMock([
       createCanvasVideoMediaStreamTrackMock(),
-      // @ts-ignore
       createAudioContextAudioMediaStreamTrackMock(),
-    ];
+    ]);
   } else if (fromCanvas) {
     mediaStreamMock.addTrack(createCanvasVideoMediaStreamTrackMock());
-
-    // @ts-ignore
-    delete mediaStreamMock.video;
   } else if (fromAudioContext) {
     mediaStreamMock.addTrack(createAudioContextAudioMediaStreamTrackMock());
   }
