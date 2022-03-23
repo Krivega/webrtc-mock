@@ -9,7 +9,7 @@ export const AUDIO_OUTPUT_KIND = 'audiooutput' as const;
 
 const DEVICE_ID_POSTFIX = 'DeviceId';
 
-export const generateDeviceId = ({
+const generateDeviceProp = ({
   prefix,
   postfix = DEVICE_ID_POSTFIX,
   index,
@@ -79,9 +79,9 @@ export class DeviceMock implements MediaDeviceInfo {
 
   constructor(kind: MediaDeviceKind, index?: number) {
     this.kind = kind;
-    this.deviceId = generateDeviceId({ index, prefix: kind });
-    this.groupId = `groupId ${kind} ${index}`;
-    this.label = `label ${kind} ${index}`;
+    this.deviceId = generateDeviceProp({ index, prefix: kind });
+    this.groupId = generateDeviceProp({ index, prefix: 'groupId', postfix: kind });
+    this.label = generateDeviceProp({ index, prefix: 'label ', postfix: kind });
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -215,14 +215,14 @@ const resolutionsWithout1080p = resolutionsList.filter(({ id }) => {
 });
 
 export const videoDevicesAvailableResolutions = {
-  [generateDeviceId({
+  [generateDeviceProp({
     prefix: VIDEO_KIND,
   })]: resolutionsList,
-  [generateDeviceId({
+  [generateDeviceProp({
     prefix: VIDEO_KIND,
     index: 1,
   })]: resolutionsList,
-  [generateDeviceId({
+  [generateDeviceProp({
     prefix: VIDEO_KIND,
     index: 2,
   })]: resolutionsWithout1080p,
