@@ -1,14 +1,9 @@
 import Events from 'events-constructor';
+import { ENDED, MUTE, UNMUTE, ISOLATION_CHANGE, OVERCONSTRAINED } from './constants';
 
 type TEventNames = typeof eventsNames;
 type TEventName = TEventNames[number];
 type THandler = (event: Event) => void;
-
-const ENDED = 'ended';
-const MUTE = 'mute';
-const ISOLATION_CHANGE = 'isolationchange';
-const OVERCONSTRAINED = 'overconstrained';
-const UNMUTE = 'unmute';
 
 const eventsNames = [ENDED, MUTE, UNMUTE, ISOLATION_CHANGE, OVERCONSTRAINED] as const;
 
