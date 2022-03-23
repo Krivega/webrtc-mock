@@ -1,11 +1,11 @@
 import Events from 'events-constructor';
 import { ENDED, MUTE, UNMUTE, ISOLATION_CHANGE, OVERCONSTRAINED } from './constants';
 
+const eventsNames = [ENDED, MUTE, UNMUTE, ISOLATION_CHANGE, OVERCONSTRAINED] as const;
+
 type TEventNames = typeof eventsNames;
 type TEventName = TEventNames[number];
 type THandler = (event: Event) => void;
-
-const eventsNames = [ENDED, MUTE, UNMUTE, ISOLATION_CHANGE, OVERCONSTRAINED] as const;
 
 class MediaStreamTrackMock implements MediaStreamTrack {
   private _events: Events<TEventNames>;
@@ -81,16 +81,6 @@ class MediaStreamTrackMock implements MediaStreamTrack {
       height,
     };
   }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  dispatchEvent(event: Event): boolean {
-    const eventName = event as unknown as TEventName;
-
-    this._events.trigger(eventName, this);
-
-    return true;
-  }
-
   applyConstraints(constraints: MediaTrackConstraints): Promise<void> {
     this.constraints = { ...constraints };
 
@@ -102,7 +92,14 @@ class MediaStreamTrackMock implements MediaStreamTrack {
   };
 
   stop = (): void => {
-    this.readyState = 'ended';
+    const event = { ...new Event(ENDED) };
+
+    this._events.trigger(ENDED, event);
+    this.readyState = ENDED;
+
+    if (this.onended) {
+      this.onended(event);
+    }
   };
 
   addEventListener = (eventName: TEventName, handler: THandler) => {
@@ -112,6 +109,14 @@ class MediaStreamTrackMock implements MediaStreamTrack {
   removeEventListener = (eventName: TEventName, handler: THandler) => {
     this._events.off(eventName, handler);
   };
+
+  dispatchEvent(event: Event): boolean {
+    const eventName = event.type as TEventName;
+
+    this._events.trigger(eventName, event);
+
+    return true;
+  }
 }
 
 export default MediaStreamTrackMock;
