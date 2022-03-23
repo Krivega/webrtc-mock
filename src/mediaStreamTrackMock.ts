@@ -32,24 +32,46 @@ class MediaStreamTrackMock implements MediaStreamTrack {
     this.constraints = { ...constraints };
   }
 
-  // eslint-disable-next-line class-methods-use-this
   clone(): MediaStreamTrack {
-    throw new Error('Method not implemented.');
+    return Object.assign({}, this);
   }
 
-  // eslint-disable-next-line class-methods-use-this
   getCapabilities(): MediaTrackCapabilities {
-    throw new Error('Method not implemented.');
+    return {
+      width: { min: 352, max: 4096 },
+      height: { min: 288, max: 2160 },
+    };
   }
 
-  // eslint-disable-next-line class-methods-use-this
   getSettings(): MediaTrackSettings {
-    throw new Error('Method not implemented.');
+    let width = 0;
+    let height = 0;
+
+    if (typeof this.constraints?.width === 'object' && this.constraints?.width?.ideal) {
+      width = this.constraints.width.ideal;
+    } else if (typeof this.constraints?.width === 'object' && this.constraints?.width?.exact) {
+      width = this.constraints.width.exact;
+    } else if (typeof this.constraints?.width === 'number' && this.constraints?.width) {
+      width = this.constraints.width;
+    }
+
+    if (typeof this.constraints?.height === 'object' && this.constraints?.height?.ideal) {
+      height = this.constraints.height.ideal;
+    } else if (typeof this.constraints?.height === 'object' && this.constraints?.height?.exact) {
+      height = this.constraints.height.exact;
+    } else if (typeof this.constraints?.height === 'number' && this.constraints?.height) {
+      height = this.constraints.height;
+    }
+
+    return {
+      width,
+      height,
+    };
   }
 
-  // eslint-disable-next-line class-methods-use-this,@typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   dispatchEvent(event: Event): boolean {
-    throw new Error('Method not implemented.');
+    return false;
   }
 
   applyConstraints(constraints: MediaTrackConstraints): Promise<void> {
