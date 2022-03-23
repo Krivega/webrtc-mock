@@ -29,12 +29,11 @@ import {
   VIDEO_KIND,
   AUDIO_INPUT_KIND,
 } from './devicesMock';
+import { DEVICE_CHANGE } from './constants';
 
 type TEventNames = typeof eventsNames;
 type TEventName = TEventNames[number];
 type THandler = (event: Event) => void;
-
-const DEVICE_CHANGE = 'devicechange';
 
 const eventsNames = [DEVICE_CHANGE] as const;
 
