@@ -39,9 +39,11 @@ const eventsNames = [DEVICE_CHANGE] as const;
 
 class MediaDevicesMock {
   private _events: Events<TEventNames>;
+  public getDisplayMedia: (constraints: MediaStreamConstraints) => Promise<MediaStream>;
 
   constructor() {
     this._events = new Events(eventsNames);
+    this.getDisplayMedia = this.getUserMedia;
   }
 
   getUserMedia = (constraints: MediaStreamConstraints) => {
