@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.10](https://github.com/Krivega/webrtc-mock/compare/v0.0.9...v0.0.10) (2022-04-08)
+
+### Features
+
+- added getDisplayMedia for screenShare api ([#8](https://github.com/Krivega/webrtc-mock/issues/8)) ([1d603ef](https://github.com/Krivega/webrtc-mock/commit/1d603ef04319f84745941e2c2ad1c7863ad3bdd7))
+
 ### [0.0.9](https://github.com/Krivega/webrtc-mock/compare/v0.0.8...v0.0.9) (2022-03-23)
 
 ### Bug Fixes
