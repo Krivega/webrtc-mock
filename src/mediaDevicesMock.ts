@@ -170,6 +170,7 @@ class MediaDevicesMock {
     // empty function parseConstraints for not parse constraints
     return Promise.resolve(createMediaStreamMock(constraints));
   };
+  getDisplayMedia = this.getUserMedia;
   enumerateDevices = () => {
     return new Promise((resolve) => {
       return setTimeout(() => {
