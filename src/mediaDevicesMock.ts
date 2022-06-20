@@ -172,10 +172,12 @@ class MediaDevicesMock {
     // empty function parseConstraints for not parse constraints
     return Promise.resolve(createMediaStreamMock(constraints));
   };
-  enumerateDevices = () => {
-    return new Promise((resolve) => {
+  enumerateDevices = (): Promise<MediaDeviceInfo[]> => {
+    return new Promise<MediaDeviceInfo[]>((resolve) => {
       return setTimeout(() => {
-        return resolve(getAvailableDevices());
+        const availableDevices = getAvailableDevices();
+
+        return resolve(availableDevices);
       }, 100);
     });
   };

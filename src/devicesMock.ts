@@ -84,9 +84,8 @@ export class DeviceMock implements MediaDeviceInfo {
     this.label = generateDeviceProp({ index, prefix: 'label ', postfix: kind });
   }
 
-  // eslint-disable-next-line class-methods-use-this
   toJSON() {
-    throw new Error('Method not implemented.');
+    return JSON.stringify(this);
   }
 }
 
@@ -105,25 +104,25 @@ export const hasUserNotAccessDevice = (deviceId: string): boolean => {
   return isUserNotAccessDevice;
 };
 
-export const parseDevice = (device: DeviceMock) => {
-  const parsedDevice = { ...device };
+export const parseDevice = (device: DeviceMock): DeviceMock => {
+  const parsedDevice = { ...device } as DeviceMock;
 
   return parsedDevice;
 };
 
-export const getDeviceVideo = (index?: number) => {
+export const getDeviceVideo = (index?: number): MediaDeviceInfo => {
   return parseDevice(new DeviceMock(VIDEO_KIND, index));
 };
 
-export const getDeviceAudioIn = (index?: number) => {
+export const getDeviceAudioIn = (index?: number): MediaDeviceInfo => {
   return parseDevice(new DeviceMock(AUDIO_INPUT_KIND, index));
 };
 
-export const getDeviceAudioOut = (index?: number) => {
+export const getDeviceAudioOut = (index?: number): MediaDeviceInfo => {
   return parseDevice(new DeviceMock(AUDIO_OUTPUT_KIND, index));
 };
 
-export const getDevicesVideo = () => {
+export const getDevicesVideo = (): MediaDeviceInfo[] => {
   const countDevices = global.COUNT_DEVICES_AVAILABLE[VIDEO_KIND];
 
   switch (countDevices) {
@@ -140,7 +139,7 @@ export const getDevicesVideo = () => {
   }
 };
 
-export const getDevicesAudioIn = () => {
+export const getDevicesAudioIn = (): MediaDeviceInfo[] => {
   const countDevices = global.COUNT_DEVICES_AVAILABLE[AUDIO_INPUT_KIND];
 
   switch (countDevices) {
@@ -157,7 +156,7 @@ export const getDevicesAudioIn = () => {
   }
 };
 
-export const getDevicesAudioOut = () => {
+export const getDevicesAudioOut = (): MediaDeviceInfo[] => {
   const countDevices = global.COUNT_DEVICES_AVAILABLE[AUDIO_OUTPUT_KIND];
 
   switch (countDevices) {
@@ -174,7 +173,7 @@ export const getDevicesAudioOut = () => {
   }
 };
 
-export const getAvailableDevices = () => {
+export const getAvailableDevices = (): MediaDeviceInfo[] => {
   return [...getDevicesVideo(), ...getDevicesAudioIn(), ...getDevicesAudioOut()];
 };
 
