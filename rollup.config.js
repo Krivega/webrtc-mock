@@ -1,7 +1,6 @@
 import typescript from 'rollup-plugin-typescript2';
 import commonjs from '@rollup/plugin-commonjs';
-import { terser } from 'rollup-plugin-terser';
-import pkg from './package.json';
+import { terser } from 'rollup-plugin-terser'; 
 
 const plugins = [
   commonjs(),
@@ -14,10 +13,10 @@ const plugins = [
 
 const config = {
   plugins,
-  input: pkg['main:src'],
+  input: "src/index.ts",
   output: [
-    { file: pkg.main, format: 'umd', sourcemap: true, name: 'webrtcMock' },
-    { file: pkg.module, format: 'es', sourcemap: true },
+    { file: "dist/index.umd.js", format: 'umd', sourcemap: true, name: 'webrtcMock' },
+    { file: "dist/index.es5.js", format: 'es', sourcemap: true },
   ],
 };
 

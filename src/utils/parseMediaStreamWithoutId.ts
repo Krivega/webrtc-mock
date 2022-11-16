@@ -1,7 +1,9 @@
 import type MediaStreamMock from '../MediaStreamMock';
 import parseMediaStream from './parseMediaStream';
 
-const parseMediaStreamWithoutId = (mediaStream: MediaStreamMock): Omit<MediaStreamMock, 'id'> => {
+type TMediaStreamMockWithoutId = Omit<MediaStreamMock, 'id'>;
+
+const parseMediaStreamWithoutId = (mediaStream: MediaStreamMock): TMediaStreamMockWithoutId => {
   const mediaStreamParsed = parseMediaStream(mediaStream);
 
   // @ts-ignore
