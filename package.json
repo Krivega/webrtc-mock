@@ -1,6 +1,6 @@
 {
   "name": "webrtc-mock",
-  "version": "0.0.12",
+  "version": "0.0.11",
   "description": "Classes and functions mock webrtc api for tests",
   "keywords": [
     "webrtc",
@@ -20,6 +20,7 @@
     "email": "mr.krivega@gmail.com",
     "url": "https://krivega.com"
   },
+  "type": "module",
   "main": "dist/index.umd.js",
   "module": "dist/index.es5.js",
   "typings": "dist/index.d.ts",
