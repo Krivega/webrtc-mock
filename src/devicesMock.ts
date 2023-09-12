@@ -1,7 +1,7 @@
-import type { IGlobal } from './global';
 import resolutionsList from './resolutionsList';
+import type { TGlobal } from './types';
 
-declare let global: IGlobal;
+declare let global: TGlobal;
 
 export const VIDEO_KIND = 'videoinput' as const;
 export const AUDIO_INPUT_KIND = 'audioinput' as const;

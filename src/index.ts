@@ -14,9 +14,11 @@ export { default as resolveParseArray } from './utils/resolveParseArray';
 
 export {
   createAudioContextAudioMediaStreamTrackMock,
-  createCanvasVideoMediaStreamTrackMock,
   createAudioMediaStreamTrackMock,
+  createCanvasVideoMediaStreamTrackMock,
   createVideoMediaStreamTrackMock,
 } from './createMediaStreamTrackMock';
 
 export { getAvailableDevices } from './devicesMock';
+
+export { type TGlobal } from './types';
