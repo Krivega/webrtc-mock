@@ -16,7 +16,7 @@ const getId = () => {
 };
 
 class MediaStreamMock implements MediaStream {
-  private _events: Events<TEventNames>;
+  private readonly events: Events<TEventNames>;
 
   private tracks: MediaStreamTrackMock[];
 
@@ -28,12 +28,14 @@ class MediaStreamMock implements MediaStream {
     this.id = getId();
     this.tracks = tracks;
 
-    this._events = new Events(eventsNames);
+    this.events = new Events(eventsNames);
     this.onaddtrack = null;
     this.onremovetrack = null;
   }
-  onaddtrack: ((this: MediaStream, ev: MediaStreamTrackEvent) => unknown) | null;
-  onremovetrack: ((this: MediaStream, ev: MediaStreamTrackEvent) => unknown) | null;
+
+  onaddtrack: ((this: MediaStream, event_: MediaStreamTrackEvent) => unknown) | null;
+
+  onremovetrack: ((this: MediaStream, event_: MediaStreamTrackEvent) => unknown) | null;
 
   getTracks = (): MediaStreamTrackMock[] => {
     return this.tracks;
@@ -51,12 +53,12 @@ class MediaStreamMock implements MediaStream {
     });
   };
 
-  addTrack = (track: MediaStreamTrackMock): MediaStreamMock => {
+  addTrack = (track: MediaStreamTrackMock): this => {
     this.tracks = [...this.tracks, track];
 
     const event = { ...new Event(ADD_TRACK), track };
 
-    this._events.trigger(ADD_TRACK, event);
+    this.events.trigger(ADD_TRACK, event);
 
     if (this.onaddtrack) {
       this.onaddtrack(event);
@@ -65,14 +67,14 @@ class MediaStreamMock implements MediaStream {
     return this;
   };
 
-  removeTrack(track: MediaStreamTrack): MediaStreamMock {
+  removeTrack(track: MediaStreamTrack): this {
     this.tracks = this.tracks.filter((item) => {
       return item.id !== track.id;
     });
 
     const event = { ...new Event(REMOVE_TRACK), track };
 
-    this._events.trigger(REMOVE_TRACK, event);
+    this.events.trigger(REMOVE_TRACK, event);
 
     if (this.onremovetrack) {
       this.onremovetrack(event);
@@ -82,30 +84,30 @@ class MediaStreamMock implements MediaStream {
   }
 
   addEventListener = (eventName: TEventName, handler: THandler) => {
-    this._events.on(eventName, handler);
+    this.events.on(eventName, handler);
   };
 
   removeEventListener = (eventName: TEventName, handler: THandler) => {
-    this._events.off(eventName, handler);
+    this.events.off(eventName, handler);
   };
 
   dispatchEvent(event: Event): boolean {
     const eventName = event.type as TEventName;
 
-    this._events.trigger(eventName, event);
+    this.events.trigger(eventName, event);
 
     return true;
   }
 
-  clone(): MediaStreamMock {
-    return Object.assign({}, this);
+  clone(): this {
+    return { ...this };
   }
 
   getTrackById(trackId: string): MediaStreamTrack | null {
     return (
       this.tracks.find((item) => {
         return item.id === trackId;
-      }) || null
+      }) ?? null
     );
   }
 }

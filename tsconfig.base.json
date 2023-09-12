@@ -19,5 +19,6 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true
-  }
+  },
+  "include": ["vite.config.ts"]
 }

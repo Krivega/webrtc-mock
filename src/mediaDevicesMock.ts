@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import Events from 'events-constructor';
 import { DEVICE_CHANGE } from './constants';
 import createMediaStreamMock from './createMediaStreamMock';
@@ -38,30 +39,30 @@ type THandler = (event: Event) => void;
 const eventsNames = [DEVICE_CHANGE] as const;
 
 class MediaDevicesMock {
-  private _events: Events<TEventNames>;
+  private readonly events: Events<TEventNames>;
+
   public getDisplayMedia: (constraints: MediaStreamConstraints) => Promise<MediaStream>;
 
   constructor() {
-    this._events = new Events(eventsNames);
+    this.events = new Events(eventsNames);
     this.getDisplayMedia = this.getUserMedia;
   }
 
-  getUserMedia = (constraints: MediaStreamConstraints) => {
-    let videoDeviceId;
-    let audioDeviceId;
+  getUserMedia = async (constraints: MediaStreamConstraints) => {
+    let videoDeviceId: string[] | string | undefined = undefined;
+    let audioDeviceId: string[] | string | undefined = undefined;
 
     if (
-      constraints &&
-      constraints.video &&
+      typeof constraints === 'object' &&
       typeof constraints.video === 'object' &&
       typeof constraints.video.deviceId === 'object' &&
       !Array.isArray(constraints.video.deviceId)
     ) {
       videoDeviceId = constraints.video.deviceId.exact;
     } else if (
-      constraints &&
+      typeof constraints === 'object' &&
       constraints.video === true &&
-      getAvailableDevices().find(({ kind }) => {
+      getAvailableDevices().some(({ kind }) => {
         return kind === VIDEO_KIND;
       })
     ) {
@@ -73,7 +74,7 @@ class MediaDevicesMock {
           exact: videoDeviceId,
         },
       };
-    } else if (constraints && constraints.video === true) {
+    } else if (typeof constraints === 'object' && constraints.video === true) {
       constraints.video = {
         deviceId: {
           exact: 'notAvailableDevice',
@@ -82,17 +83,16 @@ class MediaDevicesMock {
     }
 
     if (
-      constraints &&
-      constraints.audio &&
+      typeof constraints === 'object' &&
       typeof constraints.audio === 'object' &&
       typeof constraints.audio.deviceId === 'object' &&
       !Array.isArray(constraints.audio.deviceId)
     ) {
       audioDeviceId = constraints.audio.deviceId.exact;
     } else if (
-      constraints &&
+      typeof constraints === 'object' &&
       constraints.audio === true &&
-      getAvailableDevices().find(({ kind }) => {
+      getAvailableDevices().some(({ kind }) => {
         return kind === AUDIO_INPUT_KIND;
       })
     ) {
@@ -104,7 +104,7 @@ class MediaDevicesMock {
           exact: audioDeviceId,
         },
       };
-    } else if (constraints && constraints.audio === true) {
+    } else if (typeof constraints === 'object' && constraints.audio === true) {
       constraints.audio = {
         deviceId: {
           exact: 'notAvailableDevice',
@@ -112,100 +112,106 @@ class MediaDevicesMock {
       };
     }
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (videoDeviceId && typeof videoDeviceId === 'string' && hasBusyVideoDevice(videoDeviceId)) {
       const error = getNotReadableErrorVideo();
 
-      return Promise.reject(error);
+      throw error;
     }
 
     if (
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       videoDeviceId &&
       typeof videoDeviceId === 'string' &&
       hasPermissionDeniedBySystem(videoDeviceId)
     ) {
       const error = getPermissionDeniedBySystemError();
 
-      return Promise.reject(error);
+      throw error;
     }
 
     if (
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       videoDeviceId &&
       typeof videoDeviceId === 'string' &&
       hasNotFoundVideoDevice(videoDeviceId)
     ) {
       const error = getNotFoundError();
 
-      return Promise.reject(error);
+      throw error;
     }
 
     if (
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       (videoDeviceId &&
         typeof videoDeviceId === 'string' &&
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         hasUserNotAccessDevice(videoDeviceId)) ||
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       (audioDeviceId && typeof audioDeviceId === 'string' && hasUserNotAccessDevice(audioDeviceId))
     ) {
       const error = getPermissionDeniedByError();
 
-      return Promise.reject(error);
+      throw error;
     }
 
     if (
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       videoDeviceId &&
       typeof videoDeviceId === 'string' &&
       typeof constraints.video === 'object' &&
       typeof constraints.video.height === 'object' &&
       typeof constraints.video.height === 'object' &&
-      constraints.video.height &&
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       constraints.video.height.exact &&
       !hasAvailableResolution({
         deviceId: videoDeviceId,
         exactHeight: constraints.video.height.exact,
       })
     ) {
-      return Promise.reject(
-        new Error(
-          `Resolution height:${constraints.video.height.exact} is not available: ${videoDeviceId}`,
-        ),
+      throw new Error(
+        `Resolution height:${constraints.video.height.exact} is not available: ${videoDeviceId}`,
       );
     }
 
     // empty function parseConstraints for not parse constraints
-    return Promise.resolve(createMediaStreamMock(constraints));
+    return createMediaStreamMock(constraints);
   };
-  enumerateDevices = (): Promise<MediaDeviceInfo[]> => {
+
+  enumerateDevices = async (): Promise<MediaDeviceInfo[]> => {
     return new Promise<MediaDeviceInfo[]>((resolve) => {
-      return setTimeout(() => {
+      setTimeout(() => {
         const availableDevices = getAvailableDevices();
 
-        return resolve(availableDevices);
+        resolve(availableDevices);
       }, 100);
     });
   };
 
   addEventListener = (eventName: TEventName, handler: THandler) => {
-    this._events.on(eventName, handler);
+    this.events.on(eventName, handler);
   };
 
   removeEventListener = (eventName: TEventName, handler: THandler) => {
-    this._events.off(eventName, handler);
+    this.events.off(eventName, handler);
   };
 
   setCountVideoDevicesAvailable = (count: number) => {
     setCountVideoDevicesAvailable(count);
 
-    this._events.trigger(DEVICE_CHANGE, undefined);
+    this.events.trigger(DEVICE_CHANGE, {});
   };
 
   setCountAudioInDevicesAvailable = (count: number) => {
     setCountAudioInDevicesAvailable(count);
 
-    this._events.trigger(DEVICE_CHANGE, undefined);
+    this.events.trigger(DEVICE_CHANGE, {});
   };
 
   setCountAudioOutDevicesAvailable = (count: number) => {
     setCountAudioOutDevicesAvailable(count);
 
-    this._events.trigger(DEVICE_CHANGE, undefined);
+    this.events.trigger(DEVICE_CHANGE, {});
   };
 
   setBusyVideoDevice = (deviceId: string) => {

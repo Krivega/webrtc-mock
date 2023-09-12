@@ -3,7 +3,10 @@ import parseObject from './parseObject';
 import parseTracks from './parseTracks';
 
 const parseMediaStream = (mediaStream: MediaStreamMock): MediaStreamMock => {
-  return parseObject({ ...mediaStream, tracks: parseTracks(mediaStream.getTracks()) });
+  return parseObject<MediaStreamMock>({
+    ...mediaStream,
+    tracks: parseTracks(mediaStream.getTracks()),
+  } as unknown as MediaStreamMock);
 };
 
 export default parseMediaStream;

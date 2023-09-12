@@ -1,11 +1,3 @@
-import {
-  createAudioContextAudioMediaStreamTrackMock,
-  createAudioMediaStreamTrackMock,
-  createCanvasVideoMediaStreamTrackMock,
-  createVideoMediaStreamTrackMock,
-} from './createMediaStreamTrackMock';
-import { getAvailableDevices } from './devicesMock';
-
 export { default as MediaStreamMock } from './MediaStreamMock';
 export { default as createMediaStreamMock } from './createMediaStreamMock';
 export { default as doMock } from './doMock';
@@ -22,8 +14,9 @@ export { default as resolveParseArray } from './utils/resolveParseArray';
 
 export {
   createAudioContextAudioMediaStreamTrackMock,
-  createAudioMediaStreamTrackMock,
   createCanvasVideoMediaStreamTrackMock,
+  createAudioMediaStreamTrackMock,
   createVideoMediaStreamTrackMock,
-  getAvailableDevices,
-};
+} from './createMediaStreamTrackMock';
+
+export { getAvailableDevices } from './devicesMock';

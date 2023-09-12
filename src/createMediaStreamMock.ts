@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import MediaStreamMock from './MediaStreamMock';
 import {
   createAudioContextAudioMediaStreamTrackMock,
@@ -14,11 +15,13 @@ const createMediaStreamMock = (
   const { fromCanvas, fromAudioContext } = constraintsOptions;
   const tracks: MediaStreamTrackMock[] = [];
 
-  if (typeof constraints.audio === 'object' && !fromAudioContext) {
+  if (typeof constraints.audio === 'object' && fromAudioContext !== true) {
     tracks.push(
       createAudioMediaStreamTrackMock({
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment, @typescript-eslint/prefer-ts-expect-error
         // @ts-ignore
         id: constraints.audio.deviceId.exact,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment, @typescript-eslint/prefer-ts-expect-error
         // @ts-ignore
         deviceId: constraints.audio.deviceId,
         constraints: constraints.audio,
@@ -26,11 +29,13 @@ const createMediaStreamMock = (
     );
   }
 
-  if (typeof constraints.video === 'object' && !fromCanvas) {
+  if (typeof constraints.video === 'object' && fromCanvas !== true) {
     tracks.push(
       createVideoMediaStreamTrackMock({
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment, @typescript-eslint/prefer-ts-expect-error
         // @ts-ignore
         id: constraints.video.deviceId.exact,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment, @typescript-eslint/prefer-ts-expect-error
         // @ts-ignore
         deviceId: constraints.video.deviceId,
         constraints: constraints.video,
@@ -40,14 +45,14 @@ const createMediaStreamMock = (
 
   let mediaStreamMock = new MediaStreamMock(tracks);
 
-  if (fromCanvas && fromAudioContext) {
+  if (fromCanvas === true && fromAudioContext === true) {
     mediaStreamMock = new MediaStreamMock([
       createCanvasVideoMediaStreamTrackMock(),
       createAudioContextAudioMediaStreamTrackMock(),
     ]);
-  } else if (fromCanvas) {
+  } else if (fromCanvas === true) {
     mediaStreamMock.addTrack(createCanvasVideoMediaStreamTrackMock());
-  } else if (fromAudioContext) {
+  } else if (fromAudioContext === true) {
     mediaStreamMock.addTrack(createAudioContextAudioMediaStreamTrackMock());
   }
 

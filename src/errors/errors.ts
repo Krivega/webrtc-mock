@@ -1,9 +1,9 @@
 import {
-  ERROR_NOT_READABLE,
-  ERROR_NOT_FOUND,
   ERROR_COULD_NOT_START_VIDEO_SOURCE,
-  PERMISSION_DENIED,
+  ERROR_NOT_FOUND,
+  ERROR_NOT_READABLE,
   ERROR_PERMISSION_DENIED_BY_SYSTEM,
+  PERMISSION_DENIED,
 } from './constants';
 
 export const getNotReadableErrorVideo = (): Error => {
@@ -15,7 +15,7 @@ export const getNotReadableErrorVideo = (): Error => {
 };
 
 export const getNotFoundError = (): Error => {
-  const error = new Error();
+  const error = new Error('Not found');
 
   error.name = ERROR_NOT_FOUND;
 

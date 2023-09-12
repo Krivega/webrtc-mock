@@ -13,7 +13,7 @@ export type TOptions = {
 };
 
 class MediaStreamTrackMock implements MediaStreamTrack {
-  private _events: Events<TEventNames>;
+  private readonly events: Events<TEventNames>;
 
   id: string;
 
@@ -33,13 +33,13 @@ class MediaStreamTrackMock implements MediaStreamTrack {
 
   muted = false;
 
-  onended: ((this: MediaStreamTrack, ev: Event) => unknown) | null = null;
+  onended: ((this: MediaStreamTrack, event_: Event) => unknown) | null = null;
 
-  onisolationchange: ((this: MediaStreamTrack, ev: Event) => unknown) | null = null;
+  onisolationchange: ((this: MediaStreamTrack, event_: Event) => unknown) | null = null;
 
-  onmute: ((this: MediaStreamTrack, ev: Event) => unknown) | null = null;
+  onmute: ((this: MediaStreamTrack, event_: Event) => unknown) | null = null;
 
-  onunmute: ((this: MediaStreamTrack, ev: Event) => unknown) | null = null;
+  onunmute: ((this: MediaStreamTrack, event_: Event) => unknown) | null = null;
 
   constructor(kind: string, { id = 'identifier', constraints = {} }: TOptions = {}) {
     this.id = `${id}-${kind}-track`;
@@ -47,11 +47,11 @@ class MediaStreamTrackMock implements MediaStreamTrack {
     this.enabled = true;
     this.constraints = { ...constraints };
 
-    this._events = new Events(eventsNames);
+    this.events = new Events(eventsNames);
   }
 
   clone(): MediaStreamTrack {
-    return Object.assign({}, this);
+    return { ...this };
   }
 
   getCapabilities(): MediaTrackCapabilities {
@@ -65,19 +65,28 @@ class MediaStreamTrackMock implements MediaStreamTrack {
     let width = 0;
     let height = 0;
 
-    if (typeof this.constraints?.width === 'object' && this.constraints?.width?.ideal) {
+    if (typeof this.constraints.width === 'object' && this.constraints.width.ideal !== undefined) {
       width = this.constraints.width.ideal;
-    } else if (typeof this.constraints?.width === 'object' && this.constraints?.width?.exact) {
+    } else if (
+      typeof this.constraints.width === 'object' &&
+      this.constraints.width.exact !== undefined
+    ) {
       width = this.constraints.width.exact;
-    } else if (typeof this.constraints?.width === 'number' && this.constraints?.width) {
+    } else if (typeof this.constraints.width === 'number' && this.constraints.width) {
       width = this.constraints.width;
     }
 
-    if (typeof this.constraints?.height === 'object' && this.constraints?.height?.ideal) {
+    if (
+      typeof this.constraints.height === 'object' &&
+      this.constraints.height.ideal !== undefined
+    ) {
       height = this.constraints.height.ideal;
-    } else if (typeof this.constraints?.height === 'object' && this.constraints?.height?.exact) {
+    } else if (
+      typeof this.constraints.height === 'object' &&
+      this.constraints.height.exact !== undefined
+    ) {
       height = this.constraints.height.exact;
-    } else if (typeof this.constraints?.height === 'number' && this.constraints?.height) {
+    } else if (typeof this.constraints.height === 'number' && this.constraints.height) {
       height = this.constraints.height;
     }
 
@@ -86,10 +95,9 @@ class MediaStreamTrackMock implements MediaStreamTrack {
       height,
     };
   }
-  applyConstraints(constraints: MediaTrackConstraints): Promise<void> {
-    this.constraints = { ...constraints };
 
-    return Promise.resolve();
+  async applyConstraints(constraints: MediaTrackConstraints): Promise<void> {
+    this.constraints = { ...constraints };
   }
 
   getConstraints = (): MediaTrackConstraints => {
@@ -99,7 +107,7 @@ class MediaStreamTrackMock implements MediaStreamTrack {
   stop = (): void => {
     const event = { ...new Event(ENDED) };
 
-    this._events.trigger(ENDED, event);
+    this.events.trigger(ENDED, event);
     this.readyState = ENDED;
 
     if (this.onended) {
@@ -108,17 +116,17 @@ class MediaStreamTrackMock implements MediaStreamTrack {
   };
 
   addEventListener = (eventName: TEventName, handler: THandler) => {
-    this._events.on(eventName, handler);
+    this.events.on(eventName, handler);
   };
 
   removeEventListener = (eventName: TEventName, handler: THandler) => {
-    this._events.off(eventName, handler);
+    this.events.off(eventName, handler);
   };
 
   dispatchEvent(event: Event): boolean {
     const eventName = event.type as TEventName;
 
-    this._events.trigger(eventName, event);
+    this.events.trigger(eventName, event);
 
     return true;
   }

@@ -4,13 +4,14 @@ const getAvailableDevicesWithResolutions = ({ hasAccessDeviceAudioOutput = false
   const availableDevices = getAvailableDevices();
 
   return availableDevices.map((device) => {
+    // eslint-disable-next-line @typescript-eslint/init-declarations
     let deviceParsed;
 
     if (device.kind === 'videoinput') {
       deviceParsed = {
-        resolutions: !hasUserNotAccessDevice(device.deviceId)
-          ? getAvailableResolution(device.deviceId)
-          : [],
+        resolutions: hasUserNotAccessDevice(device.deviceId)
+          ? []
+          : getAvailableResolution(device.deviceId),
         hasAccess: !hasUserNotAccessDevice(device.deviceId),
         ...device,
       };

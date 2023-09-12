@@ -1,5 +1,5 @@
-import resolutionsList from './resolutionsList';
 import type { IGlobal } from './global';
+import resolutionsList from './resolutionsList';
 
 declare let global: IGlobal;
 
@@ -9,7 +9,7 @@ export const AUDIO_OUTPUT_KIND = 'audiooutput' as const;
 
 const DEVICE_ID_POSTFIX = 'DeviceId';
 
-const generateDeviceProp = ({
+const generateDeviceProperty = ({
   prefix,
   postfix = DEVICE_ID_POSTFIX,
   index,
@@ -18,7 +18,7 @@ const generateDeviceProp = ({
   postfix?: string;
   index?: number;
 }) => {
-  return `${prefix}${postfix}${index === undefined ? '' : index}`;
+  return `${prefix}${postfix}${index ?? ''}`;
 };
 
 export const setBusyVideoDevice = (deviceId: string) => {
@@ -79,9 +79,9 @@ export class DeviceMock implements MediaDeviceInfo {
 
   constructor(kind: MediaDeviceKind, index?: number) {
     this.kind = kind;
-    this.deviceId = generateDeviceProp({ index, prefix: kind });
-    this.groupId = generateDeviceProp({ index, prefix: 'groupId', postfix: kind });
-    this.label = generateDeviceProp({ index, prefix: 'label ', postfix: kind });
+    this.deviceId = generateDeviceProperty({ index, prefix: kind });
+    this.groupId = generateDeviceProperty({ index, prefix: 'groupId', postfix: kind });
+    this.label = generateDeviceProperty({ index, prefix: 'label ', postfix: kind });
   }
 
   toJSON() {
@@ -94,11 +94,11 @@ export const hasUserNotAccessDevice = (deviceId: string): boolean => {
   let isUserNotAccessDevice = false;
 
   if (deviceIdLowerCase.includes(VIDEO_KIND)) {
-    isUserNotAccessDevice = global.DEVICES_USER_NOT_ACCESS[VIDEO_KIND] === true;
+    isUserNotAccessDevice = global.DEVICES_USER_NOT_ACCESS[VIDEO_KIND];
   } else if (deviceIdLowerCase.includes(AUDIO_INPUT_KIND)) {
-    isUserNotAccessDevice = global.DEVICES_USER_NOT_ACCESS[AUDIO_INPUT_KIND] === true;
+    isUserNotAccessDevice = global.DEVICES_USER_NOT_ACCESS[AUDIO_INPUT_KIND];
   } else if (deviceIdLowerCase.includes(AUDIO_OUTPUT_KIND)) {
-    isUserNotAccessDevice = global.DEVICES_USER_NOT_ACCESS[AUDIO_OUTPUT_KIND] === true;
+    isUserNotAccessDevice = global.DEVICES_USER_NOT_ACCESS[AUDIO_OUTPUT_KIND];
   }
 
   return isUserNotAccessDevice;
@@ -126,16 +126,21 @@ export const getDevicesVideo = (): MediaDeviceInfo[] => {
   const countDevices = global.COUNT_DEVICES_AVAILABLE[VIDEO_KIND];
 
   switch (countDevices) {
-    case 0:
+    case 0: {
       return [];
-    case 1:
+    }
+    case 1: {
       return [getDeviceVideo()];
-    case 2:
+    }
+    case 2: {
       return [getDeviceVideo(), getDeviceVideo(2)];
-    case 3:
+    }
+    case 3: {
       return [getDeviceVideo(), getDeviceVideo(2), getDeviceVideo(3)];
-    default:
+    }
+    default: {
       return [getDeviceVideo()];
+    }
   }
 };
 
@@ -143,16 +148,21 @@ export const getDevicesAudioIn = (): MediaDeviceInfo[] => {
   const countDevices = global.COUNT_DEVICES_AVAILABLE[AUDIO_INPUT_KIND];
 
   switch (countDevices) {
-    case 0:
+    case 0: {
       return [];
-    case 1:
+    }
+    case 1: {
       return [getDeviceAudioIn()];
-    case 2:
+    }
+    case 2: {
       return [getDeviceAudioIn(), getDeviceAudioIn(2)];
-    case 3:
+    }
+    case 3: {
       return [getDeviceAudioIn(), getDeviceAudioIn(2), getDeviceAudioIn(3)];
-    default:
+    }
+    default: {
       return [getDeviceAudioIn()];
+    }
   }
 };
 
@@ -160,16 +170,21 @@ export const getDevicesAudioOut = (): MediaDeviceInfo[] => {
   const countDevices = global.COUNT_DEVICES_AVAILABLE[AUDIO_OUTPUT_KIND];
 
   switch (countDevices) {
-    case 0:
+    case 0: {
       return [];
-    case 1:
+    }
+    case 1: {
       return [getDeviceAudioOut()];
-    case 2:
+    }
+    case 2: {
       return [getDeviceAudioOut(), getDeviceAudioOut(2)];
-    case 3:
+    }
+    case 3: {
       return [getDeviceAudioOut(), getDeviceAudioOut(2), getDeviceAudioOut(3)];
-    default:
+    }
+    default: {
       return [getDeviceAudioOut()];
+    }
   }
 };
 
@@ -214,14 +229,14 @@ const resolutionsWithout1080p = resolutionsList.filter(({ id }) => {
 });
 
 export const videoDevicesAvailableResolutions = {
-  [generateDeviceProp({
+  [generateDeviceProperty({
     prefix: VIDEO_KIND,
   })]: resolutionsList,
-  [generateDeviceProp({
+  [generateDeviceProperty({
     prefix: VIDEO_KIND,
     index: 1,
   })]: resolutionsList,
-  [generateDeviceProp({
+  [generateDeviceProperty({
     prefix: VIDEO_KIND,
     index: 2,
   })]: resolutionsWithout1080p,
@@ -236,15 +251,14 @@ export const hasAvailableResolution = ({
 }) => {
   const availableResolutions = videoDevicesAvailableResolutions[deviceId];
 
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, @typescript-eslint/strict-boolean-expressions
   if (!availableResolutions) {
     return true;
   }
 
-  return (
-    availableResolutions.filter(({ height }) => {
-      return height === exactHeight;
-    }).length !== 0
-  );
+  return availableResolutions.some(({ height }) => {
+    return height === exactHeight;
+  });
 };
 
 export const getAvailableResolution = (deviceId: string) => {
