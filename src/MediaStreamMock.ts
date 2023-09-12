@@ -1,6 +1,6 @@
 import Events from 'events-constructor';
-import type MediaStreamTrackMock from './mediaStreamTrackMock';
 import { ADD_TRACK, REMOVE_TRACK } from './constants';
+import type MediaStreamTrackMock from './mediaStreamTrackMock';
 
 const eventsNames = [ADD_TRACK, REMOVE_TRACK] as const;
 
@@ -32,8 +32,8 @@ class MediaStreamMock implements MediaStream {
     this.onaddtrack = null;
     this.onremovetrack = null;
   }
-  onaddtrack: ((this: MediaStream, ev: MediaStreamTrackEvent) => any) | null;
-  onremovetrack: ((this: MediaStream, ev: MediaStreamTrackEvent) => any) | null;
+  onaddtrack: ((this: MediaStream, ev: MediaStreamTrackEvent) => unknown) | null;
+  onremovetrack: ((this: MediaStream, ev: MediaStreamTrackEvent) => unknown) | null;
 
   getTracks = (): MediaStreamTrackMock[] => {
     return this.tracks;

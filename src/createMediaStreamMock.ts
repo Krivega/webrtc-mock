@@ -1,20 +1,20 @@
-import type MediaStreamTrackMock from './mediaStreamTrackMock';
-import {
-  createAudioMediaStreamTrackMock,
-  createVideoMediaStreamTrackMock,
-  createAudioContextAudioMediaStreamTrackMock,
-  createCanvasVideoMediaStreamTrackMock,
-} from './createMediaStreamTrackMock';
 import MediaStreamMock from './MediaStreamMock';
+import {
+  createAudioContextAudioMediaStreamTrackMock,
+  createAudioMediaStreamTrackMock,
+  createCanvasVideoMediaStreamTrackMock,
+  createVideoMediaStreamTrackMock,
+} from './createMediaStreamTrackMock';
+import type MediaStreamTrackMock from './mediaStreamTrackMock';
 
 const createMediaStreamMock = (
   constraints: MediaStreamConstraints,
-  constraintsOptions: { fromCanvas?: boolean; fromAudioContext?: boolean } = {}
+  constraintsOptions: { fromCanvas?: boolean; fromAudioContext?: boolean } = {},
 ) => {
   const { fromCanvas, fromAudioContext } = constraintsOptions;
   const tracks: MediaStreamTrackMock[] = [];
 
-  if (constraints.audio && !fromAudioContext) {
+  if (typeof constraints.audio === 'object' && !fromAudioContext) {
     tracks.push(
       createAudioMediaStreamTrackMock({
         // @ts-ignore
@@ -22,11 +22,11 @@ const createMediaStreamMock = (
         // @ts-ignore
         deviceId: constraints.audio.deviceId,
         constraints: constraints.audio,
-      })
+      }),
     );
   }
 
-  if (constraints.video && !fromCanvas) {
+  if (typeof constraints.video === 'object' && !fromCanvas) {
     tracks.push(
       createVideoMediaStreamTrackMock({
         // @ts-ignore
@@ -34,7 +34,7 @@ const createMediaStreamMock = (
         // @ts-ignore
         deviceId: constraints.video.deviceId,
         constraints: constraints.video,
-      })
+      }),
     );
   }
 

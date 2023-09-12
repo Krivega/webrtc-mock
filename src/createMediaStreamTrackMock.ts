@@ -1,10 +1,11 @@
+import type { TOptions } from './mediaStreamTrackMock';
 import MediaStreamTrackMock from './mediaStreamTrackMock';
 
-export const createAudioMediaStreamTrackMock = (options?: any): MediaStreamTrackMock => {
+export const createAudioMediaStreamTrackMock = (options?: TOptions): MediaStreamTrackMock => {
   return new MediaStreamTrackMock('audio', options);
 };
 
-export const createVideoMediaStreamTrackMock = (options?: any): MediaStreamTrackMock => {
+export const createVideoMediaStreamTrackMock = (options?: TOptions): MediaStreamTrackMock => {
   return new MediaStreamTrackMock('video', options);
 };
 

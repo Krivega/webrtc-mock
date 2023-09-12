@@ -1,11 +1,16 @@
 import Events from 'events-constructor';
-import { ENDED, MUTE, UNMUTE, ISOLATION_CHANGE, OVERCONSTRAINED } from './constants';
+import { ENDED, ISOLATION_CHANGE, MUTE, OVERCONSTRAINED, UNMUTE } from './constants';
 
 const eventsNames = [ENDED, MUTE, UNMUTE, ISOLATION_CHANGE, OVERCONSTRAINED] as const;
 
 type TEventNames = typeof eventsNames;
 type TEventName = TEventNames[number];
 type THandler = (event: Event) => void;
+
+export type TOptions = {
+  id?: string;
+  constraints?: MediaTrackConstraints;
+};
 
 class MediaStreamTrackMock implements MediaStreamTrack {
   private _events: Events<TEventNames>;
@@ -28,15 +33,15 @@ class MediaStreamTrackMock implements MediaStreamTrack {
 
   muted = false;
 
-  onended: ((this: MediaStreamTrack, ev: Event) => any) | null = null;
+  onended: ((this: MediaStreamTrack, ev: Event) => unknown) | null = null;
 
-  onisolationchange: ((this: MediaStreamTrack, ev: Event) => any) | null = null;
+  onisolationchange: ((this: MediaStreamTrack, ev: Event) => unknown) | null = null;
 
-  onmute: ((this: MediaStreamTrack, ev: Event) => any) | null = null;
+  onmute: ((this: MediaStreamTrack, ev: Event) => unknown) | null = null;
 
-  onunmute: ((this: MediaStreamTrack, ev: Event) => any) | null = null;
+  onunmute: ((this: MediaStreamTrack, ev: Event) => unknown) | null = null;
 
-  constructor(kind: string, { id = 'identifier', constraints = {} } = {}) {
+  constructor(kind: string, { id = 'identifier', constraints = {} }: TOptions = {}) {
     this.id = `${id}-${kind}-track`;
     this.kind = kind;
     this.enabled = true;

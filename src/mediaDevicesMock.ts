@@ -1,35 +1,35 @@
 import Events from 'events-constructor';
+import { DEVICE_CHANGE } from './constants';
 import createMediaStreamMock from './createMediaStreamMock';
 import {
-  getNotFoundError,
-  getNotReadableErrorVideo,
-  getPermissionDeniedBySystemError,
-  getPermissionDeniedByError,
-} from './errors/errors';
-import {
+  AUDIO_INPUT_KIND,
+  VIDEO_KIND,
+  getAvailableDevices,
+  hasAvailableResolution,
+  hasBusyVideoDevice,
+  hasNotFoundVideoDevice,
+  hasPermissionDeniedBySystem,
+  hasUserNotAccessDevice,
   setBusyVideoDevice,
+  setCountAudioInDevicesAvailable,
+  setCountAudioOutDevicesAvailable,
+  setCountVideoDevicesAvailable,
   setNotFoundVideoDevice,
   setPermissionDeniedBySystem,
-  setUserNotAccessVideo,
-  setUserNotAccessAudioIn,
   setUserNotAccessAll,
+  setUserNotAccessAudioIn,
+  setUserNotAccessVideo,
   unsetAllRestrictions,
   unsetBusyVideoDevice,
   unsetNotFoundVideoDevice,
   unsetPermissionDeniedBySystem,
-  getAvailableDevices,
-  hasAvailableResolution,
-  hasUserNotAccessDevice,
-  hasBusyVideoDevice,
-  hasNotFoundVideoDevice,
-  hasPermissionDeniedBySystem,
-  setCountVideoDevicesAvailable,
-  setCountAudioInDevicesAvailable,
-  setCountAudioOutDevicesAvailable,
-  VIDEO_KIND,
-  AUDIO_INPUT_KIND,
 } from './devicesMock';
-import { DEVICE_CHANGE } from './constants';
+import {
+  getNotFoundError,
+  getNotReadableErrorVideo,
+  getPermissionDeniedByError,
+  getPermissionDeniedBySystemError,
+} from './errors/errors';
 
 type TEventNames = typeof eventsNames;
 type TEventName = TEventNames[number];
@@ -164,8 +164,8 @@ class MediaDevicesMock {
     ) {
       return Promise.reject(
         new Error(
-          `Resolution height:${constraints.video.height.exact} is not available: ${videoDeviceId}`
-        )
+          `Resolution height:${constraints.video.height.exact} is not available: ${videoDeviceId}`,
+        ),
       );
     }
 

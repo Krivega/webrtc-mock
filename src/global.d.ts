@@ -1,6 +1,6 @@
-import type MediaDevicesMock from './MediaDevicesMock';
 import type MediaStreamMock from './MediaStreamMock';
-import { VIDEO_KIND, AUDIO_INPUT_KIND, AUDIO_OUTPUT_KIND } from './devicesMock';
+import { AUDIO_INPUT_KIND, AUDIO_OUTPUT_KIND, VIDEO_KIND } from './devicesMock';
+import type MediaDevicesMock from './mediaDevicesMock';
 
 export interface IGlobal {
   DEVICES_USER_NOT_ACCESS: {

@@ -1,7 +1,7 @@
-import { VIDEO_KIND, AUDIO_INPUT_KIND, AUDIO_OUTPUT_KIND } from './devicesMock';
 import MediaStreamMock from './MediaStreamMock';
-import MediaDevicesMock from './MediaDevicesMock';
+import { AUDIO_INPUT_KIND, AUDIO_OUTPUT_KIND, VIDEO_KIND } from './devicesMock';
 import type { IGlobal } from './global';
+import MediaDevicesMock from './mediaDevicesMock';
 
 declare let global: IGlobal;
 
