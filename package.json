@@ -40,7 +40,7 @@
     "prepare": "husky install",
     "prepublishOnly": "yarn build",
     "preview": "vite preview",
-    "release": "standard-version && git push --follow-tags origin main"
+    "release": "standard-version && git push --follow-tags origin master"
   },
   "dependencies": {
     "events-constructor": "^1.2.0"
