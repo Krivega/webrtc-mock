@@ -12,12 +12,12 @@ export type TOptions = {
   constraints?: MediaTrackConstraints;
 };
 
-class MediaStreamTrackMock implements MediaStreamTrack {
+class MediaStreamTrackMock<T extends string = 'audio' | 'video'> implements MediaStreamTrack {
   private readonly events: Events<TEventNames>;
 
   id: string;
 
-  kind: string;
+  kind: T;
 
   constraints: MediaTrackConstraints;
 
@@ -41,7 +41,7 @@ class MediaStreamTrackMock implements MediaStreamTrack {
 
   onunmute: ((this: MediaStreamTrack, event_: Event) => unknown) | null = null;
 
-  constructor(kind: string, { id = 'identifier', constraints = {} }: TOptions = {}) {
+  constructor(kind: T, { id = 'identifier', constraints = {} }: TOptions = {}) {
     this.id = `${id}-${kind}-track`;
     this.kind = kind;
     this.enabled = true;
@@ -50,7 +50,7 @@ class MediaStreamTrackMock implements MediaStreamTrack {
     this.events = new Events(eventsNames);
   }
 
-  clone(): MediaStreamTrack {
+  clone(): this {
     return { ...this };
   }
 

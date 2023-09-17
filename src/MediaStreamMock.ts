@@ -41,16 +41,16 @@ class MediaStreamMock implements MediaStream {
     return this.tracks;
   };
 
-  getAudioTracks = (): MediaStreamTrackMock[] => {
+  getAudioTracks = (): MediaStreamTrackMock<'audio'>[] => {
     return this.tracks.filter(({ kind }) => {
       return kind === 'audio';
-    });
+    }) as MediaStreamTrackMock<'audio'>[];
   };
 
-  getVideoTracks = (): MediaStreamTrackMock[] => {
+  getVideoTracks = (): MediaStreamTrackMock<'video'>[] => {
     return this.tracks.filter(({ kind }) => {
       return kind === 'video';
-    });
+    }) as MediaStreamTrackMock<'video'>[];
   };
 
   addTrack = (track: MediaStreamTrackMock): this => {
