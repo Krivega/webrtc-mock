@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.17](https://github.com/Krivega/webrtc-mock/compare/v0.0.16...v0.0.17) (2023-09-17)
+
+### Bug Fixes
+
+- types ([40c2032](https://github.com/Krivega/webrtc-mock/commit/40c20320cc7a31cbe138ec9d3514aec1408ba0d2))
+
 ### [0.0.16](https://github.com/Krivega/webrtc-mock/compare/v0.0.15...v0.0.16) (2023-09-12)
 
 ### Features
