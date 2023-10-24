@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-destructuring */
 import Events from 'events-constructor';
 import { ENDED, ISOLATION_CHANGE, MUTE, OVERCONSTRAINED, UNMUTE } from './constants';
 

@@ -46,14 +46,14 @@
     "release:publish": "git push --follow-tags origin master && npm publish"
   },
   "dependencies": {
-    "events-constructor": "^1.2.0"
+    "events-constructor": "^1.2.2"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.23.2",
     "@commitlint/cli": "^18.0.0",
     "@commitlint/config-conventional": "^18.0.0",
     "@nabla/vite-plugin-eslint": "^1.5.0",
-    "@types/dom-mediacapture-transform": "^0.1.6",
+    "@types/dom-mediacapture-transform": "^0.1.8",
     "@typescript-eslint/eslint-plugin": "^6.9.0",
     "@typescript-eslint/parser": "^6.9.0",
     "cross-env": "^7.0.3",
@@ -78,6 +78,6 @@
     "vite-tsconfig-paths": "^4.2.1"
   },
   "peerDependencies": {
-    "events-constructor": "^1.2.0"
+    "events-constructor": "^1.2.2"
   }
 }
