@@ -24,9 +24,10 @@
   "exports": {
     ".": {
       "require": "./dist/index.cjs",
-      "import": "./dist/index.es.js"
+      "import": "./dist/index.js"
     }
   },
+  "main": "./dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
@@ -34,47 +35,49 @@
   "scripts": {
     "build": "vite build",
     "lint": "yarn lint:js && yarn lint:ts",
-    "lint:danger": "danger ci --failOnErrors",
     "lint:js": "eslint src --ext ts,tsx --ignore-path .gitignore --report-unused-disable-directives --max-warnings 0",
     "lint:ts": "tsc",
     "prepare": "husky install",
     "prepublishOnly": "yarn build",
     "preview": "vite preview",
-    "release": "standard-version && git push --follow-tags origin master"
+    "release": "standard-version && yarn release:publish",
+    "release:major": "standard-version --release-as major && yarn release:publish",
+    "release:pre": "standard-version --prerelease && yarn release:publish",
+    "release:publish": "git push --follow-tags origin master && npm publish"
   },
   "dependencies": {
     "events-constructor": "^1.2.0"
   },
   "devDependencies": {
-    "@babel/preset-typescript": "^7.22.15",
-    "@commitlint/cli": "^17.7.1",
-    "@commitlint/config-conventional": "^17.7.0",
-    "@nabla/vite-plugin-eslint": "1.5.0",
+    "@babel/preset-typescript": "^7.23.2",
+    "@commitlint/cli": "^18.0.0",
+    "@commitlint/config-conventional": "^18.0.0",
+    "@nabla/vite-plugin-eslint": "^1.5.0",
     "@types/dom-mediacapture-transform": "^0.1.6",
-    "@typescript-eslint/eslint-plugin": "^6.7.0",
-    "@typescript-eslint/parser": "^6.7.0",
-    "@vitejs/plugin-basic-ssl": "1.0.1",
-    "concurrently": "^8.2.1",
-    "cross-env": "7.0.3",
-    "danger": "^11.2.8",
-    "eslint": "^8.49.0",
+    "@typescript-eslint/eslint-plugin": "^6.9.0",
+    "@typescript-eslint/parser": "^6.9.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.52.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-airbnb-typescript": "17.1.0",
+    "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-config-prettier": "^9.0.0",
-    "eslint-import-resolver-typescript": "^3.6.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-flowtype": "^8.0.3",
-    "eslint-plugin-import": "^2.28.1",
-    "eslint-plugin-prettier": "^5.0.0",
-    "eslint-plugin-unicorn": "48.0.1",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-jest": "^27.4.3",
+    "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-unicorn": "^48.0.1",
     "husky": "^8.0.3",
-    "lint-staged": "^14.0.1",
+    "lint-staged": "^15.0.2",
     "prettier": "^3.0.3",
     "standard-version": "^9.5.0",
     "tsc-files": "^1.1.4",
     "typescript": "^5.2.2",
-    "vite": "^4.4.9",
-    "vite-plugin-dts": "3.5.3",
+    "vite": "^4.5.0",
+    "vite-plugin-dts": "^3.6.1",
     "vite-tsconfig-paths": "^4.2.1"
   },
-  "peerDependencies": {}
+  "peerDependencies": {
+    "events-constructor": "^1.2.0"
+  }
 }

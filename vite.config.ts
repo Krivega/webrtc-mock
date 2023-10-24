@@ -5,6 +5,8 @@ import tsConfigPaths from 'vite-tsconfig-paths';
 
 import packageJson from './package.json';
 
+const externalDependencies = Object.keys(packageJson.peerDependencies);
+
 export default defineConfig(() => {
   return {
     publicDir: false,
@@ -12,7 +14,7 @@ export default defineConfig(() => {
       tsConfigPaths(),
       dts({
         include: ['src'],
-        exclude: ['src/setupTests.ts'],
+        exclude: ['src/setupTests.ts', 'src/**/__tests__/**', 'src/**/__fixtures__/**'],
       }),
     ],
     build: {
@@ -20,16 +22,16 @@ export default defineConfig(() => {
         entry: [resolve('src', 'index.ts')],
         name: 'index',
         formats: ['es', 'cjs'],
-        fileName: (format, entryName) => `${entryName}.${format === 'cjs' ? 'cjs' : 'es.js'}`,
+        fileName: (format, entryName) => `${entryName}.${format === 'cjs' ? 'cjs' : 'js'}`,
         target: 'esnext',
       },
       rollupOptions: {
         // make sure to externalize deps that shouldn't be bundled
         // into your library
-        external: Object.keys(packageJson.peerDependencies),
+        external: externalDependencies,
       },
       optimizeDeps: {
-        exclude: Object.keys(packageJson.peerDependencies),
+        exclude: externalDependencies,
       },
       minify: true,
       esbuild: {
