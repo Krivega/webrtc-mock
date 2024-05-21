@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 import resolutionsList from './resolutionsList';
 import type { TGlobal } from './types';
 
