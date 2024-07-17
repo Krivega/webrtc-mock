@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import MediaStreamMock from './MediaStreamMock';
 import {
@@ -18,10 +19,8 @@ const createMediaStreamMock = (
   if (typeof constraints.audio === 'object' && fromAudioContext !== true) {
     tracks.push(
       createAudioMediaStreamTrackMock({
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment, @typescript-eslint/prefer-ts-expect-error
         // @ts-ignore
         id: constraints.audio.deviceId.exact,
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment, @typescript-eslint/prefer-ts-expect-error
         // @ts-ignore
         deviceId: constraints.audio.deviceId,
         constraints: constraints.audio,
@@ -32,10 +31,8 @@ const createMediaStreamMock = (
   if (typeof constraints.video === 'object' && fromCanvas !== true) {
     tracks.push(
       createVideoMediaStreamTrackMock({
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment, @typescript-eslint/prefer-ts-expect-error
         // @ts-ignore
         id: constraints.video.deviceId.exact,
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment, @typescript-eslint/prefer-ts-expect-error
         // @ts-ignore
         deviceId: constraints.video.deviceId,
         constraints: constraints.video,
