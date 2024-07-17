@@ -1,9 +1,9 @@
-export { default as MediaStreamMock } from './MediaStreamMock';
 export { default as createMediaStreamMock } from './createMediaStreamMock';
 export { default as doMock } from './doMock';
 export { default as getAudioContextMediaStreamMock } from './getAudioContextMediaStreamMock';
 export { default as getAvailableDevicesWithResolutions } from './getAvailableDevicesWithResolutions';
 export { default as getCanvasMediaStreamMock } from './getCanvasMediaStreamMock';
+export { default as MediaStreamMock } from './MediaStreamMock';
 export { default as MediaStreamTrackMock } from './mediaStreamTrackMock';
 export { default as resolutionsList } from './resolutionsList';
 export { default as parseMediaStream } from './utils/parseMediaStream';
@@ -18,6 +18,14 @@ export {
   createCanvasVideoMediaStreamTrackMock,
   createVideoMediaStreamTrackMock,
 } from './createMediaStreamTrackMock';
+export {
+  resetCapabilities,
+  setCapabilities,
+  setMaxHeightCapabilities,
+  setMaxWidthCapabilities,
+  setMinHeightCapabilities,
+  setMinWidthCapabilities,
+} from './mediaStreamTrackMock';
 
 export { getAvailableDevices } from './devicesMock';
 
