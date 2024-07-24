@@ -41,7 +41,14 @@ export type TOptions = {
   constraints?: MediaTrackConstraints;
 };
 
-class MediaStreamTrackMock<T extends string = 'audio' | 'video'> implements MediaStreamTrack {
+type MediaStreamUnionTrack = {
+  readonly kind: 'video' | 'audio';
+  clone: () => MediaStreamUnionTrack;
+} & MediaStreamTrack;
+
+class MediaStreamTrackMock<T extends 'audio' | 'video' = 'video' | 'audio'>
+  implements MediaStreamUnionTrack
+{
   private readonly events: Events<TEventNames>;
 
   id: string;
