@@ -29,4 +29,4 @@ export {
 
 export { getAvailableDevices } from './devicesMock';
 
-export { type TGlobal } from './types';
+export { type MediaStreamUnionTrack, type TGlobal } from './types';

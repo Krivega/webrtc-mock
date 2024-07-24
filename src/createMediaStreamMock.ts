@@ -7,14 +7,14 @@ import {
   createCanvasVideoMediaStreamTrackMock,
   createVideoMediaStreamTrackMock,
 } from './createMediaStreamTrackMock';
-import type MediaStreamTrackMock from './mediaStreamTrackMock';
+import type { MediaStreamUnionTrack } from './types';
 
 const createMediaStreamMock = (
   constraints: MediaStreamConstraints,
   constraintsOptions: { fromCanvas?: boolean; fromAudioContext?: boolean } = {},
 ) => {
   const { fromCanvas, fromAudioContext } = constraintsOptions;
-  const tracks: MediaStreamTrackMock[] = [];
+  const tracks: MediaStreamUnionTrack[] = [];
 
   if (typeof constraints.audio === 'object' && fromAudioContext !== true) {
     tracks.push(

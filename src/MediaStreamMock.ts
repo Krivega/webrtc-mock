@@ -1,6 +1,6 @@
 import Events from 'events-constructor';
 import { ADD_TRACK, REMOVE_TRACK } from './constants';
-import type MediaStreamTrackMock from './mediaStreamTrackMock';
+import type { MediaStreamUnionTrack } from './types';
 
 const eventsNames = [ADD_TRACK, REMOVE_TRACK] as const;
 
@@ -18,13 +18,13 @@ const getId = () => {
 class MediaStreamMock implements MediaStream {
   private readonly events: Events<TEventNames>;
 
-  private tracks: MediaStreamTrackMock[];
+  private tracks: MediaStreamUnionTrack[];
 
   id: string;
 
   active = true;
 
-  constructor(tracks: MediaStreamTrackMock[] = []) {
+  constructor(tracks: MediaStreamUnionTrack[] = []) {
     this.id = getId();
     this.tracks = tracks;
 
@@ -37,23 +37,23 @@ class MediaStreamMock implements MediaStream {
 
   onremovetrack: ((this: MediaStream, event_: MediaStreamTrackEvent) => unknown) | null;
 
-  getTracks = (): MediaStreamTrackMock[] => {
+  getTracks = (): MediaStreamUnionTrack[] => {
     return this.tracks;
   };
 
-  getAudioTracks = (): MediaStreamTrackMock<'audio'>[] => {
+  getAudioTracks = (): MediaStreamAudioTrack[] => {
     return this.tracks.filter(({ kind }) => {
       return kind === 'audio';
-    }) as MediaStreamTrackMock<'audio'>[];
+    }) as MediaStreamAudioTrack[];
   };
 
-  getVideoTracks = (): MediaStreamTrackMock<'video'>[] => {
+  getVideoTracks = (): MediaStreamVideoTrack[] => {
     return this.tracks.filter(({ kind }) => {
       return kind === 'video';
-    }) as MediaStreamTrackMock<'video'>[];
+    }) as MediaStreamVideoTrack[];
   };
 
-  addTrack = (track: MediaStreamTrackMock): this => {
+  addTrack = (track: MediaStreamUnionTrack): this => {
     this.tracks = [...this.tracks, track];
 
     const event = { ...new Event(ADD_TRACK), track };

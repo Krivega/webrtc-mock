@@ -2,6 +2,11 @@ import type MediaStreamMock from './MediaStreamMock';
 import type { AUDIO_INPUT_KIND, AUDIO_OUTPUT_KIND, VIDEO_KIND } from './devicesMock';
 import type MediaDevicesMock from './mediaDevicesMock';
 
+export type MediaStreamUnionTrack = {
+  readonly kind: 'video' | 'audio';
+  clone: () => MediaStreamUnionTrack;
+} & MediaStreamTrack;
+
 export type TGlobal = {
   DEVICES_USER_NOT_ACCESS: {
     [VIDEO_KIND]: boolean;

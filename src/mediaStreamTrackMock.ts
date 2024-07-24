@@ -3,6 +3,7 @@ import Events from 'events-constructor';
 import type { TCapabilities } from './Capabilities';
 import Capabilities from './Capabilities';
 import { ENDED, ISOLATION_CHANGE, MUTE, OVERCONSTRAINED, UNMUTE } from './constants';
+import type { MediaStreamUnionTrack } from './types';
 
 const eventsNames = [ENDED, MUTE, UNMUTE, ISOLATION_CHANGE, OVERCONSTRAINED] as const;
 
@@ -40,11 +41,6 @@ export type TOptions = {
   id?: string;
   constraints?: MediaTrackConstraints;
 };
-
-type MediaStreamUnionTrack = {
-  readonly kind: 'video' | 'audio';
-  clone: () => MediaStreamUnionTrack;
-} & MediaStreamTrack;
 
 class MediaStreamTrackMock<T extends 'audio' | 'video' = 'video' | 'audio'>
   implements MediaStreamUnionTrack
