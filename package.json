@@ -79,7 +79,8 @@
     "vite-tsconfig-paths": "^5.0.1"
   },
   "peerDependencies": {
-    "events-constructor": "^1.2.3"
+    "events-constructor": "^1.2.3",
+    "@types/dom-mediacapture-transform": "^0.1.9"
   },
   "packageManager": "yarn@1.22.22"
 }
