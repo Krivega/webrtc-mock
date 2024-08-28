@@ -1,6 +1,6 @@
 {
   "name": "webrtc-mock",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "Classes and functions mock webrtc api for tests",
   "keywords": [
     "webrtc",
