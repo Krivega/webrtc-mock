@@ -46,7 +46,8 @@
     "release:publish": "git push --follow-tags origin master && npm publish"
   },
   "dependencies": {
-    "events-constructor": "^1.2.3"
+    "events-constructor": "^1.2.3",
+    "@types/dom-mediacapture-transform": "^0.1.9"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.24.7",
