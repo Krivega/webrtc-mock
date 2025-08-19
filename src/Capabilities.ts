@@ -17,31 +17,31 @@ const defaultCapabilities: TCapabilities = {
 export default class Capabilities {
   private _capabilities: TCapabilities = defaultCapabilities;
 
-  get capabilities() {
+  public get capabilities() {
     return this._capabilities;
   }
 
-  setCapabilities(capabilities: TCapabilities) {
+  public setCapabilities(capabilities: TCapabilities) {
     this._capabilities = capabilities;
   }
 
-  resetCapabilities() {
+  public resetCapabilities() {
     this.setCapabilities(defaultCapabilities);
   }
 
-  setMinWidth(width: number) {
+  public setMinWidth(width: number) {
     this._capabilities.width.min = width;
   }
 
-  setMaxWidth(width: number) {
+  public setMaxWidth(width: number) {
     this._capabilities.width.max = width;
   }
 
-  setMinHeight(height: number) {
+  public setMinHeight(height: number) {
     this._capabilities.height.min = height;
   }
 
-  setMaxHeight(height: number) {
+  public setMaxHeight(height: number) {
     this._capabilities.height.max = height;
   }
 }

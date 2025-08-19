@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 import resolutionsList from './resolutionsList';
+
 import type { TGlobal } from './types';
 
 declare let global: TGlobal;
@@ -70,22 +70,22 @@ export const hasPermissionDeniedBySystem = (deviceId: string): boolean => {
   return global.DEVICES_PERMISSION_DENIED_BY_SYSTEM[VIDEO_KIND].includes(deviceId);
 };
 export class DeviceMock implements MediaDeviceInfo {
-  deviceId: string;
+  public deviceId: string;
 
-  groupId: string;
+  public groupId: string;
 
-  kind: MediaDeviceKind;
+  public kind: MediaDeviceKind;
 
-  label: string;
+  public label: string;
 
-  constructor(kind: MediaDeviceKind, index?: number) {
+  public constructor(kind: MediaDeviceKind, index?: number) {
     this.kind = kind;
     this.deviceId = generateDeviceProperty({ index, prefix: kind });
     this.groupId = generateDeviceProperty({ index, prefix: 'groupId', postfix: kind });
     this.label = generateDeviceProperty({ index, prefix: 'label ', postfix: kind });
   }
 
-  toJSON() {
+  public toJSON() {
     return JSON.stringify(this);
   }
 }
@@ -252,6 +252,7 @@ export const hasAvailableResolution = ({
 }) => {
   const availableResolutions = videoDevicesAvailableResolutions[deviceId];
 
+  // eslint-disable-next-line @stylistic/max-len
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, @typescript-eslint/strict-boolean-expressions
   if (!availableResolutions) {
     return true;

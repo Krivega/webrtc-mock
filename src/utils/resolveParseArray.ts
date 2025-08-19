@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import parseObject from './parseObject';
 
 const resolveParseArray = <T = Record<string, unknown>>(property: keyof T) => {

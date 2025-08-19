@@ -1,8 +1,11 @@
-/* eslint-disable @typescript-eslint/prefer-destructuring */
-import Events from 'events-constructor';
-import type { TCapabilities } from './Capabilities';
+/* eslint-disable unicorn/no-null */
+/* eslint-disable @typescript-eslint/class-methods-use-this */
+import { Events } from 'events-constructor';
+
 import Capabilities from './Capabilities';
 import { ENDED, ISOLATION_CHANGE, MUTE, OVERCONSTRAINED, UNMUTE } from './constants';
+
+import type { TCapabilities } from './Capabilities';
 import type { MediaStreamUnionTrack } from './types';
 
 const eventsNames = [ENDED, MUTE, UNMUTE, ISOLATION_CHANGE, OVERCONSTRAINED] as const;
@@ -42,38 +45,37 @@ export type TOptions = {
   constraints?: MediaTrackConstraints;
 };
 
-class MediaStreamTrackMock<T extends 'audio' | 'video' = 'video' | 'audio'>
-  implements MediaStreamUnionTrack
-{
+// eslint-disable-next-line prettier/prettier
+class MediaStreamTrackMock<T extends 'audio' | 'video' = 'video' | 'audio'> implements MediaStreamUnionTrack {
+  public id: string;
+
+  public kind: T;
+
+  public constraints: MediaTrackConstraints;
+
+  public enabled: boolean;
+
+  public contentHint = '';
+
+  public readyState: MediaStreamTrackState = 'live';
+
+  public isolated = false;
+
+  public label = '';
+
+  public muted = false;
+
+  public onended: ((this: MediaStreamTrack, event_: Event) => unknown) | null = null;
+
+  public onisolationchange: ((this: MediaStreamTrack, event_: Event) => unknown) | null = null;
+
+  public onmute: ((this: MediaStreamTrack, event_: Event) => unknown) | null = null;
+
+  public onunmute: ((this: MediaStreamTrack, event_: Event) => unknown) | null = null;
+
   private readonly events: Events<TEventNames>;
 
-  id: string;
-
-  kind: T;
-
-  constraints: MediaTrackConstraints;
-
-  enabled: boolean;
-
-  contentHint = '';
-
-  readyState: MediaStreamTrackState = 'live';
-
-  isolated = false;
-
-  label = '';
-
-  muted = false;
-
-  onended: ((this: MediaStreamTrack, event_: Event) => unknown) | null = null;
-
-  onisolationchange: ((this: MediaStreamTrack, event_: Event) => unknown) | null = null;
-
-  onmute: ((this: MediaStreamTrack, event_: Event) => unknown) | null = null;
-
-  onunmute: ((this: MediaStreamTrack, event_: Event) => unknown) | null = null;
-
-  constructor(kind: T, { id = 'identifier', constraints = {} }: TOptions = {}) {
+  public constructor(kind: T, { id = 'identifier', constraints = {} }: TOptions = {}) {
     this.id = `${id}-${kind}-track`;
     this.kind = kind;
     this.enabled = true;
@@ -82,15 +84,15 @@ class MediaStreamTrackMock<T extends 'audio' | 'video' = 'video' | 'audio'>
     this.events = new Events(eventsNames);
   }
 
-  clone(): this {
+  public clone(): this {
     return { ...this };
   }
 
-  getCapabilities(): MediaTrackCapabilities {
+  public getCapabilities(): MediaTrackCapabilities {
     return capabilities.capabilities;
   }
 
-  getSettings(): MediaTrackSettings {
+  public getSettings(): MediaTrackSettings {
     let width = 0;
     let height = 0;
 
@@ -125,15 +127,15 @@ class MediaStreamTrackMock<T extends 'audio' | 'video' = 'video' | 'audio'>
     };
   }
 
-  async applyConstraints(constraints: MediaTrackConstraints): Promise<void> {
+  public async applyConstraints(constraints: MediaTrackConstraints): Promise<void> {
     this.constraints = { ...constraints };
   }
 
-  getConstraints = (): MediaTrackConstraints => {
+  public getConstraints = (): MediaTrackConstraints => {
     return this.constraints;
   };
 
-  stop = (): void => {
+  public stop = (): void => {
     const event = { ...new Event(ENDED) };
 
     this.events.trigger(ENDED, event);
@@ -144,15 +146,15 @@ class MediaStreamTrackMock<T extends 'audio' | 'video' = 'video' | 'audio'>
     }
   };
 
-  addEventListener = (eventName: TEventName, handler: THandler) => {
+  public addEventListener = (eventName: TEventName, handler: THandler) => {
     this.events.on(eventName, handler);
   };
 
-  removeEventListener = (eventName: TEventName, handler: THandler) => {
+  public removeEventListener = (eventName: TEventName, handler: THandler) => {
     this.events.off(eventName, handler);
   };
 
-  dispatchEvent(event: Event): boolean {
+  public dispatchEvent(event: Event): boolean {
     const eventName = event.type as TEventName;
 
     this.events.trigger(eventName, event);

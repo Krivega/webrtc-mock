@@ -1,6 +1,6 @@
-import type MediaStreamMock from './MediaStreamMock';
 import type { AUDIO_INPUT_KIND, AUDIO_OUTPUT_KIND, VIDEO_KIND } from './devicesMock';
 import type MediaDevicesMock from './mediaDevicesMock';
+import type MediaStreamMock from './MediaStreamMock';
 
 export type MediaStreamUnionTrack = {
   readonly kind: 'video' | 'audio';

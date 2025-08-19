@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/class-methods-use-this */
 /* eslint-disable no-param-reassign */
-import Events from 'events-constructor';
+import { Events } from 'events-constructor';
+
 import { DEVICE_CHANGE } from './constants';
 import createMediaStreamMock from './createMediaStreamMock';
 import {
@@ -39,16 +41,16 @@ type THandler = (event: Event) => void;
 const eventsNames = [DEVICE_CHANGE] as const;
 
 class MediaDevicesMock {
-  private readonly events: Events<TEventNames>;
-
   public getDisplayMedia: (constraints: MediaStreamConstraints) => Promise<MediaStream>;
 
-  constructor() {
+  private readonly events: Events<TEventNames>;
+
+  public constructor() {
     this.events = new Events(eventsNames);
     this.getDisplayMedia = this.getUserMedia;
   }
 
-  getUserMedia = async (constraints: MediaStreamConstraints) => {
+  public getUserMedia = async (constraints: MediaStreamConstraints) => {
     let videoDeviceId: string[] | string | undefined = undefined;
     let audioDeviceId: string[] | string | undefined = undefined;
 
@@ -145,7 +147,6 @@ class MediaDevicesMock {
       // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       (videoDeviceId &&
         typeof videoDeviceId === 'string' &&
-        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         hasUserNotAccessDevice(videoDeviceId)) ||
       // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       (audioDeviceId && typeof audioDeviceId === 'string' && hasUserNotAccessDevice(audioDeviceId))
@@ -178,7 +179,7 @@ class MediaDevicesMock {
     return createMediaStreamMock(constraints);
   };
 
-  enumerateDevices = async (): Promise<MediaDeviceInfo[]> => {
+  public enumerateDevices = async (): Promise<MediaDeviceInfo[]> => {
     return new Promise<MediaDeviceInfo[]>((resolve) => {
       setTimeout(() => {
         const availableDevices = getAvailableDevices();
@@ -188,69 +189,69 @@ class MediaDevicesMock {
     });
   };
 
-  addEventListener = (eventName: TEventName, handler: THandler) => {
+  public addEventListener = (eventName: TEventName, handler: THandler) => {
     this.events.on(eventName, handler);
   };
 
-  removeEventListener = (eventName: TEventName, handler: THandler) => {
+  public removeEventListener = (eventName: TEventName, handler: THandler) => {
     this.events.off(eventName, handler);
   };
 
-  setCountVideoDevicesAvailable = (count: number) => {
+  public setCountVideoDevicesAvailable = (count: number) => {
     setCountVideoDevicesAvailable(count);
 
     this.events.trigger(DEVICE_CHANGE, {});
   };
 
-  setCountAudioInDevicesAvailable = (count: number) => {
+  public setCountAudioInDevicesAvailable = (count: number) => {
     setCountAudioInDevicesAvailable(count);
 
     this.events.trigger(DEVICE_CHANGE, {});
   };
 
-  setCountAudioOutDevicesAvailable = (count: number) => {
+  public setCountAudioOutDevicesAvailable = (count: number) => {
     setCountAudioOutDevicesAvailable(count);
 
     this.events.trigger(DEVICE_CHANGE, {});
   };
 
-  setBusyVideoDevice = (deviceId: string) => {
+  public setBusyVideoDevice = (deviceId: string) => {
     setBusyVideoDevice(deviceId);
   };
 
-  setNotFoundVideoDevice = (deviceId: string) => {
+  public setNotFoundVideoDevice = (deviceId: string) => {
     setNotFoundVideoDevice(deviceId);
   };
 
-  setPermissionDeniedBySystem = (deviceId: string) => {
+  public setPermissionDeniedBySystem = (deviceId: string) => {
     setPermissionDeniedBySystem(deviceId);
   };
 
-  setUserNotAccessVideo = (notAccess = true) => {
+  public setUserNotAccessVideo = (notAccess = true) => {
     setUserNotAccessVideo(notAccess);
   };
 
-  setUserNotAccessAudioIn = (notAccess = true) => {
+  public setUserNotAccessAudioIn = (notAccess = true) => {
     setUserNotAccessAudioIn(notAccess);
   };
 
-  setUserNotAccessAll = (notAccess = true) => {
+  public setUserNotAccessAll = (notAccess = true) => {
     setUserNotAccessAll(notAccess);
   };
 
-  unsetAllRestrictions = () => {
+  public unsetAllRestrictions = () => {
     unsetAllRestrictions();
   };
 
-  unsetBusyVideoDevice = (deviceId: string) => {
+  public unsetBusyVideoDevice = (deviceId: string) => {
     unsetBusyVideoDevice(deviceId);
   };
 
-  unsetNotFoundVideoDevice = (deviceId: string) => {
+  public unsetNotFoundVideoDevice = (deviceId: string) => {
     unsetNotFoundVideoDevice(deviceId);
   };
 
-  unsetPermissionDeniedBySystem = (deviceId: string) => {
+  public unsetPermissionDeniedBySystem = (deviceId: string) => {
     unsetPermissionDeniedBySystem(deviceId);
   };
 }

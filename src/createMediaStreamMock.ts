@@ -1,12 +1,12 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import MediaStreamMock from './MediaStreamMock';
 import {
   createAudioContextAudioMediaStreamTrackMock,
   createAudioMediaStreamTrackMock,
   createCanvasVideoMediaStreamTrackMock,
   createVideoMediaStreamTrackMock,
 } from './createMediaStreamTrackMock';
+import MediaStreamMock from './MediaStreamMock';
+
 import type { MediaStreamUnionTrack } from './types';
 
 const createMediaStreamMock = (

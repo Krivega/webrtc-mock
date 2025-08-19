@@ -4,5 +4,5 @@
     "baseUrl": "./",
     "types": ["vite/client", "node", "dom-mediacapture-transform"]
   },
-  "include": ["src"]
+  "include": ["src", "vite.config.ts", "eslint.config.ts"]
 }

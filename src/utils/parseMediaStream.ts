@@ -1,6 +1,7 @@
-import type MediaStreamMock from '../MediaStreamMock';
 import parseObject from './parseObject';
 import parseTracks from './parseTracks';
+
+import type MediaStreamMock from '../MediaStreamMock';
 
 const parseMediaStream = (mediaStream: MediaStreamMock): MediaStreamMock => {
   return parseObject<MediaStreamMock>({

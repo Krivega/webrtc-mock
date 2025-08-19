@@ -1,6 +1,7 @@
-import MediaStreamMock from './MediaStreamMock';
 import { AUDIO_INPUT_KIND, AUDIO_OUTPUT_KIND, VIDEO_KIND } from './devicesMock';
 import MediaDevicesMock from './mediaDevicesMock';
+import MediaStreamMock from './MediaStreamMock';
+
 import type { TGlobal } from './types';
 
 declare let global: TGlobal;
