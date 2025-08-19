@@ -3,12 +3,12 @@
 import { Events } from 'events-constructor';
 
 import Capabilities from './Capabilities';
-import { ENDED, ISOLATION_CHANGE, MUTE, OVERCONSTRAINED, RESIZE, UNMUTE } from './constants';
+import { ENDED, ISOLATION_CHANGE, MUTE, OVERCONSTRAINED, UNMUTE } from './constants';
 
 import type { TCapabilities } from './Capabilities';
 import type { MediaStreamUnionTrack } from './types';
 
-const eventsNames = [ENDED, MUTE, UNMUTE, ISOLATION_CHANGE, OVERCONSTRAINED, RESIZE] as const;
+const eventsNames = [ENDED, MUTE, UNMUTE, ISOLATION_CHANGE, OVERCONSTRAINED] as const;
 
 type TEventNames = typeof eventsNames;
 type TEventName = TEventNames[number];
