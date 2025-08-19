@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/Krivega/webrtc-mock/compare/v1.1.7...v1.2.0) (2025-08-19)
+
+### Features
+
+- add new event RESIZE to MediaStreamTrackMock ([65e10c9](https://github.com/Krivega/webrtc-mock/commit/65e10c9e357fb01d4d1961eae4dc367caa6b0ec9))
+
 ### [1.1.7](https://github.com/Krivega/webrtc-mock/compare/v1.1.6...v1.1.7) (2025-03-08)
 
 ### [1.1.6](https://github.com/Krivega/webrtc-mock/compare/v1.1.5...v1.1.6) (2024-08-28)
