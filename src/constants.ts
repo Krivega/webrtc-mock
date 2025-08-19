@@ -6,3 +6,4 @@ export const UNMUTE = 'unmute';
 export const DEVICE_CHANGE = 'devicechange';
 export const ADD_TRACK = 'addtrack';
 export const REMOVE_TRACK = 'removetrack';
+export const RESIZE = 'resize';
