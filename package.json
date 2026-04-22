@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@types/dom-mediacapture-transform": "^0.1.11",
-    "events-constructor": "^2.0.0"
+    "events-constructor": "^2.3.1"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.27.1",
@@ -71,7 +71,7 @@
   },
   "peerDependencies": {
     "@types/dom-mediacapture-transform": "^0.1.11",
-    "events-constructor": "^2.0.0"
+    "events-constructor": "^2.3.1"
   },
   "packageManager": "yarn@1.22.22"
 }
